@@ -1,5 +1,5 @@
 import { Readable } from "node:stream";
-import { createApiHandler } from "./index.js";
+import { createApiHandler } from "./api.js";
 import { createBlobStorage, createBlobState } from "./blob-storage.js";
 
 // Netlify Fetch Request -> mahalliy server ham ishlatadigan API.

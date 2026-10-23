@@ -142,8 +142,8 @@ test("login rate limit and session revocation work across independent instances"
 });
 
 test("Netlify credentials only come from server environment variables", () => {
-  assert.deepEqual(loadTeachers({ env: {}, allowLocal: false }), []);
-  assert.throws(() => loadTeachers({ env: { TEACHER_EMAIL: "teacher@example.com" }, allowLocal: false }));
-  assert.deepEqual(loadTeachers({ env: { TEACHER_EMAIL: " teacher@example.com ", TEACHER_PASSWORD: "secret", TEACHER_NAME: "Ustoz" }, allowLocal: false }),
+  assert.deepEqual(loadTeachers({ env: {} }), []);
+  assert.throws(() => loadTeachers({ env: { TEACHER_EMAIL: "teacher@example.com" } }));
+  assert.deepEqual(loadTeachers({ env: { TEACHER_EMAIL: " teacher@example.com ", TEACHER_PASSWORD: "secret", TEACHER_NAME: "Ustoz" } }),
     [{ name: "Ustoz", email: "teacher@example.com", password: "secret" }]);
 });

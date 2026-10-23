@@ -10,7 +10,7 @@ export default async function handler(request, context) {
     api ??= createNetlifyApi({
       getStore: () => getStore({ name: "bilimtest", consistency: "strong" }),
       seed,
-      accounts: loadTeachers({ allowLocal: false }),
+      accounts: loadTeachers(),
     });
     return await api(request, context);
   } catch (error) {

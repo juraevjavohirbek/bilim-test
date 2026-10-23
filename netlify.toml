@@ -8,7 +8,6 @@
 
 [functions]
   node_bundler = "esbuild"
-  excluded_files = ["server/teachers.local.json", "**/*.test.js"]
 
 # API qoidasi React sahifalari qoidasidan oldin turishi kerak.
 [[redirects]]
