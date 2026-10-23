@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { getStore } from "@netlify/blobs";
 import { createNetlifyApi } from "./netlify-api.js";
-import { loadTeachers } from "./teachers.js";
+import { loadTeachers, defaultTeachers } from "./teachers.js";
 
 const accounts = [{ name: "Test teacher", email: "teacher@example.com", password: "test-password-123" }];
 const seed = { "Ona tili": [{ id: "ot", title: "Ot", questions: [
@@ -141,8 +141,9 @@ test("login rate limit and session revocation work across independent instances"
   assert.equal((await client(makeApi())("/api/login", "POST", accounts[0])).status, 429);
 });
 
-test("Netlify credentials only come from server environment variables", () => {
-  assert.deepEqual(loadTeachers({ env: {} }), []);
+test("configured teacher accounts work without environment variables; environment overrides remain available", () => {
+  assert.deepEqual(loadTeachers({ env: {} }), defaultTeachers);
+  assert.ok(defaultTeachers.length > 0);
   assert.throws(() => loadTeachers({ env: { TEACHER_EMAIL: "teacher@example.com" } }));
   assert.deepEqual(loadTeachers({ env: { TEACHER_EMAIL: " teacher@example.com ", TEACHER_PASSWORD: "secret", TEACHER_NAME: "Ustoz" } }),
     [{ name: "Ustoz", email: "teacher@example.com", password: "secret" }]);

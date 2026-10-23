@@ -13,7 +13,7 @@ npm run dev
 
 Terminaldagi Vite manzilini oching. `npm run dev` React va 3001-portdagi API'ni birga ishga tushiradi.
 
-Mahalliy o'qituvchilar `server/teachers.local.json` ichida. Bu fayl GitHub'ga yuklanmaydi. Yangi kompyuterda `server/teachers.example.json` dan shu nomda nusxa olib, ism, email va parolingizni yozing. O'zgartirgach serverni qayta yoqing. Netlify'dagi o'qituvchi sozlamalari alohida, quyida ko'rsatilgan.
+O'qituvchi emaili, paroli va ismi `server/teachers.js` ichidagi `defaultTeachers` ro'yxatida. Bu ro'yxat GitHub'ga ham yuklanadi va Netlify'da alohida sozlamasiz ishlaydi. O'zgartirgach mahalliy serverni qayta yoqing; internetdagi sayt uchun commit va push qiling.
 
 Mahalliy savollar `data/tests.json` ichida; qo'shish, tahrirlash va o'chirish aynan shu faylni yangilaydi.
 
@@ -21,7 +21,7 @@ Mahalliy savollar `data/tests.json` ichida; qo'shish, tahrirlash va o'chirish ay
 
 1. Loyihani GitHub repository'ga yuklang. `node_modules`, `dist`, `.netlify`, `.env` va `server/teachers.local.json` yuklanmaydi. `.gitignore` shunga sozlangan. Agar maxfiy fayl avval Git'ga qo'shilgan bo'lsa, uni repository va tarixdan alohida olib tashlash kerak; `.gitignore` avvalgi commitlarni o'zgartirmaydi.
 2. Netlify'da yangi project ochib, GitHub repository'ni ulang. Loyihaning `package.json` va `netlify.toml` joylashgan papkasini base directory sifatida ishlating.
-3. **Project configuration > Environment variables** ichiga quyidagilarni kiriting. Qiymatlar Functions uchun ham mavjud bo'lsin (standart all scopes ham ishlaydi):
+3. Kirish ma'lumotlari `server/teachers.js` da mavjud; Environment variables kiritish shart emas. Agar ularni koddan alohida sozlamoqchi bo'lsangiz, **Project configuration > Environment variables** ichiga quyidagilarni kiriting. Ular koddagi ro'yxatdan ustun turadi va Functions uchun ham mavjud bo'lishi kerak:
 
 | Nomi | Qiymati |
 | --- | --- |
@@ -29,7 +29,7 @@ Mahalliy savollar `data/tests.json` ichida; qo'shish, tahrirlash va o'chirish ay
 | `TEACHER_PASSWORD` | Kirish uchun o'z parolingiz |
 | `TEACHER_NAME` | Saytda ko'rinadigan ismingiz (ixtiyoriy) |
 
-Bu nomlarga `VITE_` qo'shmang. Parolni kodga yoki `netlify.toml` ichiga yozmang. Production qiymatlarini Production deploy context uchun bering; preview saytlarga o'qituvchi parolini berish shart emas.
+Environment variables ishlatsangiz, nomlarga `VITE_` qo'shmang. Koddagi joriy login ma'lumotlari ochiq repository'da hammaga ko'rinadi; ularni ko'rgan odam o'qituvchi bo'lib kirishi va savollarni o'zgartirishi mumkin.
 
 4. Deploy qiling. Sozlamalar `netlify.toml` dan olinadi:
    - Build command: `npm run build`

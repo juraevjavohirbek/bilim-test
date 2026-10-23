@@ -1,5 +1,4 @@
 import { createServer } from "node:http";
-import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import { createApiHandler } from "./api.js";
@@ -9,18 +8,7 @@ import { loadTeachers } from "./teachers.js";
 const defaultDataFile = fileURLToPath(new URL("../data/tests.json", import.meta.url));
 
 // Bu entry faqat mahalliy serverga tegishli; Netlify uni import qilmaydi.
-function localTeachers() {
-  const configured = loadTeachers();
-  if (configured.length) return configured;
-  try {
-    return JSON.parse(readFileSync(new URL("./teachers.local.json", import.meta.url), "utf8"));
-  } catch (error) {
-    if (error.code === "ENOENT") return [];
-    throw error;
-  }
-}
-
-export function createApiServer({ dataFile = defaultDataFile, accounts = localTeachers(), ...options } = {}) {
+export function createApiServer({ dataFile = defaultDataFile, accounts = loadTeachers(), ...options } = {}) {
   return createServer(createApiHandler({ storage: createFileStorage(dataFile), accounts, ...options }));
 }
 
