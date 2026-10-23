@@ -1,0 +1,633 @@
+{
+  "Ona tili": [
+    {
+      "id": "soz-turkumlari",
+      "title": "So‘z turkumlari",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Qaysi so‘z ot turkumiga kiradi?",
+          "options": [
+            "Yugurmoq",
+            "Kitob",
+            "Yaxshi",
+            "Tez"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "id": 2,
+          "text": "Qaysi so‘z sifat turkumiga kiradi?",
+          "options": [
+            "Olma",
+            "Chiroyli",
+            "Yozmoq",
+            "Men"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "id": 3,
+          "text": "Qaysi so‘z son turkumiga kiradi?",
+          "options": [
+            "Besh",
+            "Katta",
+            "Maktab",
+            "Kelmoq"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "id": "ot",
+      "title": "Ot va uning turlari",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Qaysi so‘z shaxs nomini bildiradi?",
+          "options": [
+            "Daraxt",
+            "O‘qituvchi",
+            "Qalam",
+            "Dengiz"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    },
+    {
+      "id": "sifat",
+      "title": "Sifat",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Qaysi so‘z belgi bildiradi?",
+          "options": [
+            "Daftar",
+            "Yozmoq",
+            "Chiroyli",
+            "Besh"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    },
+    {
+      "id": "fel",
+      "title": "Fe’l",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Qaysi so‘z harakat bildiradi?",
+          "options": [
+            "Qizil",
+            "Kitob",
+            "Yugurmoq",
+            "Uch"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    },
+    {
+      "id": "gap-bolaklari",
+      "title": "Gap bo‘laklari",
+      "questions": [
+        {
+          "id": 1,
+          "text": "“Bola kitob o‘qidi” gapida ega qaysi so‘z?",
+          "options": [
+            "Bola",
+            "Kitob",
+            "O‘qidi",
+            "Kitob o‘qidi"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    }
+  ],
+  "Matematika": [
+    {
+      "id": "natural-sonlar",
+      "title": "Natural sonlar",
+      "questions": [
+        {
+          "id": 1,
+          "text": "12 + 8 nechaga teng?",
+          "options": [
+            "30",
+            "20",
+            "22",
+            "24"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "id": "f54a7f0b-e595-4290-a761-fac74c897a9f",
+          "text": "10+20 javobini toping",
+          "options": [
+            "10",
+            "20",
+            "30",
+            "40"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    },
+    {
+      "id": "kasrlar",
+      "title": "Oddiy va o‘nli kasrlar",
+      "questions": [
+        {
+          "id": 1,
+          "text": "1/2 ning o‘nli ko‘rinishi qaysi?",
+          "options": [
+            "0,2",
+            "0,25",
+            "0,5",
+            "1,2"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    },
+    {
+      "id": "tenglamalar",
+      "title": "Tenglamalar",
+      "questions": [
+        {
+          "id": 1,
+          "text": "x + 7 = 12 bo‘lsa, x nechaga teng?",
+          "options": [
+            "3",
+            "4",
+            "5",
+            "6"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    },
+    {
+      "id": "foizlar",
+      "title": "Foizlar",
+      "questions": [
+        {
+          "id": 1,
+          "text": "200 ning 10 foizi nechaga teng?",
+          "options": [
+            "10",
+            "20",
+            "30",
+            "40"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    },
+    {
+      "id": "3a58ea3b-4a6b-4d11-8c6b-43d849f562cf",
+      "title": "kitoblar",
+      "questions": [
+        {
+          "id": "734d432e-19b5-4fdd-be16-caa8c1c2ac0d",
+          "text": "yoqtirgan kitobiz?",
+          "options": [
+            "b",
+            "a",
+            "d",
+            "c"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    }
+  ],
+  "Tarix": [
+    {
+      "id": "qadimgi-dunyo",
+      "title": "Qadimgi dunyo tarixi",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Piramidalari bilan mashhur qadimgi davlat qaysi?",
+          "options": [
+            "Misr",
+            "Rim",
+            "Xitoy",
+            "Hindiston"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "id": "orta-asrlar",
+      "title": "O‘rta asrlar tarixi",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Amir Temur qaysi yilda tug‘ilgan?",
+          "options": [
+            "1220",
+            "1336",
+            "1405",
+            "1441"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    },
+    {
+      "id": "ozbekiston-tarixi",
+      "title": "O‘zbekiston tarixi",
+      "questions": [
+        {
+          "id": 1,
+          "text": "O‘zbekiston mustaqilligi qaysi yilda e’lon qilingan?",
+          "options": [
+            "1989",
+            "1990",
+            "1991",
+            "1992"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    }
+  ],
+  "Geografiya": [
+    {
+      "id": "yer-sayyorasi",
+      "title": "Yer sayyorasi",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Yer qaysi yulduz atrofida aylanadi?",
+          "options": [
+            "Sirius",
+            "Quyosh",
+            "Qutb yulduzi",
+            "Vega"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    },
+    {
+      "id": "materiklar",
+      "title": "Materiklar va okeanlar",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Eng katta okean qaysi?",
+          "options": [
+            "Atlantika",
+            "Hind",
+            "Shimoliy Muz",
+            "Tinch"
+          ],
+          "correctAnswer": 3
+        }
+      ]
+    },
+    {
+      "id": "iqlim",
+      "title": "Ob-havo va iqlim",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Havo harorati qaysi asbob bilan o‘lchanadi?",
+          "options": [
+            "Barometr",
+            "Termometr",
+            "Kompas",
+            "Tarozi"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    }
+  ],
+  "Tabiiy fanlar": [
+    {
+      "id": "tabiat",
+      "title": "Jonli va jonsiz tabiat",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Qaysi biri jonli tabiatga kiradi?",
+          "options": [
+            "Tosh",
+            "Suv",
+            "Daraxt",
+            "Havo"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    },
+    {
+      "id": "suv-havo",
+      "title": "Suv va havo",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Oddiy atmosfera bosimida suv taxminan necha °C da muzlaydi?",
+          "options": [
+            "0",
+            "10",
+            "50",
+            "100"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "id": "ekologiya",
+      "title": "Atrof-muhitni muhofaza qilish",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Qaysi odat suvni tejashga yordam beradi?",
+          "options": [
+            "Jo‘mrakni ochiq qoldirish",
+            "Oqayotgan jo‘mrakni tuzatish",
+            "Suvni behuda oqizish",
+            "Quvurlarni tekshirmaslik"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    }
+  ],
+  "Informatika": [
+    {
+      "id": "kompyuter",
+      "title": "Kompyuter qurilmalari",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Matn kiritish uchun qaysi qurilmadan foydalaniladi?",
+          "options": [
+            "Monitor",
+            "Printer",
+            "Klaviatura",
+            "Karnay"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    },
+    {
+      "id": "axborot",
+      "title": "Axborot va uning turlari",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Rasm axborotning qaysi ko‘rinishiga misol?",
+          "options": [
+            "Grafik",
+            "Ovozli",
+            "Sonli",
+            "Faqat matnli"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "id": "algoritmlar",
+      "title": "Algoritmlar",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Algoritm nima?",
+          "options": [
+            "Faqat kompyuter qurilmasi",
+            "Masalani yechish uchun tartibli qadamlar",
+            "Faqat bitta son",
+            "Internet manzili"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    }
+  ],
+  "Fizika": [
+    {
+      "id": "harakat",
+      "title": "Mexanik harakat",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Jism 100 metrni 20 soniyada bosib o‘tsa, o‘rtacha tezligi qancha?",
+          "options": [
+            "2 m/s",
+            "5 m/s",
+            "10 m/s",
+            "20 m/s"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    },
+    {
+      "id": "kuch",
+      "title": "Kuch va uning turlari",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Kuchning SI tizimidagi birligi qaysi?",
+          "options": [
+            "Metr",
+            "Kilogramm",
+            "Nyuton",
+            "Soniya"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    },
+    {
+      "id": "elektr",
+      "title": "Elektr hodisalari",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Elektr tokining kuchi qaysi birlikda o‘lchanadi?",
+          "options": [
+            "Volt",
+            "Amper",
+            "Om",
+            "Vatt"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    }
+  ],
+  "Kimyo": [
+    {
+      "id": "moddalar",
+      "title": "Moddalar va ularning xossalari",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Qaysi biri modda hisoblanadi?",
+          "options": [
+            "Harakat",
+            "Vaqt",
+            "Temir",
+            "Tezlik"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    },
+    {
+      "id": "atom",
+      "title": "Atom va molekulalar",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Atom yadrosida qaysi zarrachalar joylashadi?",
+          "options": [
+            "Faqat elektronlar",
+            "Protonlar va neytronlar",
+            "Faqat molekulalar",
+            "Elektronlar va molekulalar"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    },
+    {
+      "id": "reaksiyalar",
+      "title": "Kimyoviy reaksiyalar",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Qaysi hodisada yangi modda hosil bo‘ladi?",
+          "options": [
+            "Muz erishi",
+            "Suv bug‘lanishi",
+            "Temir zanglashi",
+            "Shisha sinishi"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    }
+  ],
+  "Biologiya": [
+    {
+      "id": "hujayra",
+      "title": "Hujayra tuzilishi",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Tirik organizmlarning asosiy tuzilish birligi nima?",
+          "options": [
+            "Hujayra",
+            "Tog‘ jinsi",
+            "Metall",
+            "Kristall"
+          ],
+          "correctAnswer": 0
+        }
+      ]
+    },
+    {
+      "id": "osimliklar",
+      "title": "O‘simliklar dunyosi",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Fotosintez vaqtida o‘simliklar qaysi gazni ajratadi?",
+          "options": [
+            "Azot",
+            "Kislorod",
+            "Vodorod",
+            "Karbonat angidrid"
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    },
+    {
+      "id": "hayvonlar",
+      "title": "Hayvonot dunyosi",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Qaysi hayvon sutemizuvchilarga kiradi?",
+          "options": [
+            "Qurbaqa",
+            "Kapalak",
+            "Delfin",
+            "Timsoh"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    }
+  ],
+  "Ingliz tili": [
+    {
+      "id": "alphabet",
+      "title": "Alphabet — Alifbo",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Ingliz alifbosida nechta harf bor?",
+          "options": [
+            "24",
+            "25",
+            "26",
+            "28"
+          ],
+          "correctAnswer": 2
+        }
+      ]
+    },
+    {
+      "id": "nouns",
+      "title": "Nouns — Otlar",
+      "questions": [
+        {
+          "id": 1,
+          "text": "Qaysi inglizcha so‘z ot hisoblanadi?",
+          "options": [
+            "Quickly",
+            "Beautiful",
+            "Slowly",
+            "Book"
+          ],
+          "correctAnswer": 3
+        }
+      ]
+    },
+    {
+      "id": "present-simple",
+      "title": "Present Simple",
+      "questions": [
+        {
+          "id": 1,
+          "text": "To‘g‘ri gapni tanlang.",
+          "options": [
+            "She go to school.",
+            "She goes to school.",
+            "She going to school.",
+            "She to school goes."
+          ],
+          "correctAnswer": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[functions]
+  node_bundler = "esbuild"
+  excluded_files = ["server/teachers.local.json", "**/*.test.js"]
+
+# API qoidasi React sahifalari qoidasidan oldin turishi kerak.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# Ichki sahifani yangilaganda ham React Router ochiladi.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
