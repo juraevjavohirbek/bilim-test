@@ -1,5 +1,6 @@
 import SubjectCard from "./SubjectCard";
 import useTopics from "../hooks/useTopics";
+import LearningBackdrop from "./LearningBackdrop";
 import bookIcon from "../assets/book.svg";
 import calculatorIcon from "../assets/calculator.svg";
 import historyIcon from "../assets/history.svg";
@@ -24,7 +25,8 @@ function SubjectList() {
   const { topics, error, loading } = useTopics();
 
   return (
-    <section className="subject-section container">
+    <section className="subject-section container illustrated-subjects">
+      <LearningBackdrop />
       <div className="page-heading">
         <h1>Fanlar va savollar</h1>
         <p>Mavzularni ko‘rish uchun fanni tanlang.</p>

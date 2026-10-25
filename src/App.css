@@ -1258,3 +1258,68 @@ progress::-moz-progress-bar { background: var(--primary-color); border-radius: 1
   .game-topic-page .game-instruction { margin: 3px auto; font-size: 12px; }
   .game-topic-page .team-card small { display: none; }
 }
+
+/* Fanlar olami: bolalar uchun rasmli fon, har bir fan uchun alohida bezak. */
+#root:has(.learning-backdrop) { isolation: isolate; }
+.learning-backdrop { position: fixed; z-index: -1; inset: 0; pointer-events: none; overflow: hidden; }
+.learning-backdrop-catalog {
+  background-color: #fff5e7;
+  background-image: linear-gradient(90deg, #fff8ed66, #fff8ed11 65%, transparent), var(--school-wallpaper);
+  background-size: cover;
+  background-position: center, right bottom;
+  background-repeat: no-repeat;
+}
+.learning-backdrop-subject { color: var(--subject-ink); background: var(--subject-paper); }
+.learning-backdrop-subject::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 5% 5%, #ffffffa6, transparent 65%), radial-gradient(ellipse at 100% 90%, color-mix(in srgb, var(--subject-ink) 13%, transparent), transparent 60%);
+}
+.subject-paper-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: .14;
+  background-image: radial-gradient(var(--subject-ink) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.learning-backdrop[data-theme='math'] .subject-paper-pattern,
+.learning-backdrop[data-theme='physics'] .subject-paper-pattern,
+.learning-backdrop[data-theme='computing'] .subject-paper-pattern {
+  background-image: linear-gradient(var(--subject-ink) 1px, transparent 1px), linear-gradient(90deg, var(--subject-ink) 1px, transparent 1px);
+  background-size: 44px 44px;
+  opacity: .065;
+}
+.learning-backdrop[data-theme='language'] .subject-paper-pattern,
+.learning-backdrop[data-theme='english'] .subject-paper-pattern {
+  background-image: repeating-linear-gradient(transparent 0 37px, var(--subject-ink) 38px, transparent 39px);
+  background-size: 100% 39px;
+  opacity: .085;
+}
+.subject-backdrop-art { position: absolute; right: max(12px, calc((100vw - 1420px) / 2)); top: 50%; transform: translateY(-42%); width: clamp(280px, 34vw, 470px); height: auto; max-height: 82dvh; }
+.illustrated-subjects .subject-grid { max-width: calc(100% - 260px); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.illustrated-subjects .subject-card { min-height: 104px; padding: 18px; background: color-mix(in srgb, var(--card-background) 84%, #fffdf6); border-color: #fff8ed; box-shadow: 0 5px 0 #9e7c6420, 0 8px 24px #9e7c6410; }
+#root:has(.learning-backdrop) .navbar { background-color: #fff8eccf; }
+#root:has(.learning-backdrop) .topic-card { background: #fffdf6ed; border-color: #fffaf2; box-shadow: 0 4px 0 #76527412, 0 8px 22px #76527408; }
+#root:has(.learning-backdrop) .topic-card:nth-child(3n + 2) { background: #fff9efed; }
+#root:has(.learning-backdrop) .topic-card:nth-child(3n) { background: #fffcf8ed; }
+#root:has(.learning-backdrop) .topic-card:hover { border-color: #d4b7de; }
+#root:has(.learning-backdrop) .page-heading h1 { text-shadow: 0 2px 0 #ffffffb3; }
+
+@media (min-width: 1500px) {
+  .illustrated-subjects .subject-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 960px; }
+}
+@media (max-width: 1050px) {
+  .illustrated-subjects .subject-grid { max-width: calc(100% - 180px); }
+  .subject-backdrop-art { right: -45px; opacity: .65; }
+}
+@media (max-width: 760px) {
+  .illustrated-subjects .subject-grid { max-width: none; }
+  .learning-backdrop-catalog { background-image: linear-gradient(#fff8ed70, #fff8edaa), var(--school-wallpaper); background-position: center, 78% bottom; }
+  .subject-backdrop-art { width: 340px; right: -105px; top: auto; bottom: 0; transform: none; opacity: .3; }
+  .subject-paper-pattern { opacity: .08; }
+}
+@media (max-width: 600px) {
+  .illustrated-subjects .subject-grid { grid-template-columns: 1fr; }
+  .illustrated-subjects .subject-card { min-height: 96px; padding: 16px; background: color-mix(in srgb, var(--card-background) 88%, #fffdf6); }
+}

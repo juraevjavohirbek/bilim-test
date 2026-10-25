@@ -7,6 +7,7 @@ import EditorModal from "../components/EditorModal";
 import plusIcon from "../assets/plus.svg";
 import GameModeSelect from "../components/GameModeSelect";
 import { normalizeMode, modeQuery } from "../lib/gameModes";
+import LearningBackdrop from "../components/LearningBackdrop";
 
 function SubjectPage() {
   const { title } = useParams();
@@ -21,6 +22,7 @@ function SubjectPage() {
 
   return (
     <section className="subject-section container">
+      <LearningBackdrop subject={subjectTitle} />
       <Link to="/subjects" className="back-link">← Barcha fanlar</Link>
       <div className="subject-mode-header">
         <div className="page-heading">

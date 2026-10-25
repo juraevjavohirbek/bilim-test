@@ -8,6 +8,7 @@ import plusIcon from "../assets/plus.svg";
 import GameModeSelect from "../components/GameModeSelect";
 import GameQuiz from "../components/GameQuiz";
 import { normalizeMode, modeQuery } from "../lib/gameModes";
+import LearningBackdrop from "../components/LearningBackdrop";
 
 function TopicPage() {
   const { title, topicId } = useParams();
@@ -21,6 +22,7 @@ function TopicPage() {
 
   return (
     <section className={`subject-section container${mode !== "normal" ? " game-topic-page" : ""}`}>
+      <LearningBackdrop subject={subjectTitle} />
       <Link to={`/subjects/${encodeURIComponent(subjectTitle)}${modeQuery(mode)}`} className="back-link">
         ← {subjectTitle} mavzulari
       </Link>
