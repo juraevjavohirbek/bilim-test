@@ -5,6 +5,8 @@ import { gameModes, remainingQuestions, pickUnusedQuestion, teamScores, wheelPoi
 import bearHost from "../assets/bear-host.png";
 import rabbitHost from "../assets/rabbit-host.png";
 import { subjectBackground } from "../lib/subjectBackgrounds";
+import useFullscreen from "../hooks/useFullscreen";
+import FullscreenButton from "./FullscreenButton";
 
 const colors = ["#a454cf", "#dc567e", "#d9a027", "#258e79", "#e07739", "#6f62cb"];
 
@@ -84,6 +86,7 @@ function TugBoard({ answers, total, turn, onDraw, pending }) {
 }
 
 export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDelete }) {
+  const fullscreen = useFullscreen();
   const [answers, setAnswers] = useState({});
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -140,8 +143,8 @@ export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDe
   const scores = teamScores(answers);
 
   return (
-    <div className={`game-panel game-${mode} subject-game-panel`} data-theme={background.theme} style={background.style}>
-      <div className="game-panel-header"><span className="game-label">{label}</span><span className="question-counter">{done} / {total} bajarildi</span></div>
+    <div className={`game-panel game-${mode} subject-game-panel${fullscreen.expanded ? " is-expanded" : ""}`} data-theme={background.theme} style={background.style}>
+      <div className="game-panel-header"><span className="game-label">{label}</span><div className="panel-corner-actions"><span className="question-counter">{done} / {total} bajarildi</span><FullscreenButton fullscreen={fullscreen} label="O‘yin" /></div></div>
       {done === total && !modalOpen ? (
         <div className="game-finished" role="status">
           <span className="game-trophy" aria-hidden="true">★</span>

@@ -1376,3 +1376,86 @@ progress::-moz-progress-bar { background: var(--primary-color); border-radius: 1
   .game-question-modal .question-title { padding: 8px; font-size: 18px; }
   .game-panel.subject-game-panel { background-position: 55% center; }
 }
+
+/* Rasm aynan o‘yin panelining va savol kartasining ichida ham ko‘rinadi. */
+.game-panel.subject-game-panel,
+.subject-quiz-panel,
+.game-question-modal {
+  background-color: var(--subject-paper);
+  background-image: var(--subject-scene);
+  background-size: cover;
+  background-position: center;
+}
+.subject-quiz-panel .question-card,
+.game-question-modal .question-card {
+  background-color: var(--subject-paper);
+  background-image: linear-gradient(90deg, #fffdf4ed, #fffdf4ba 55%, #fffdf480), var(--subject-scene);
+  background-size: cover;
+  background-position: center;
+  border-color: color-mix(in srgb, var(--subject-ink) 28%, white);
+}
+.game-question-modal .question-title,
+.subject-quiz-panel .question-title { background: #fffef6ed; border-radius: 14px; padding: 10px; }
+.panel-corner-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.fullscreen-button.icon-button { width: 40px; height: 40px; flex-shrink: 0; background: #fff9e9; border: 2px solid color-mix(in srgb, var(--subject-ink, #8740b8) 40%, white); color: #68417f; }
+.fullscreen-button svg { width: 21px; height: 21px; }
+.fullscreen-button:hover { background: #f1e1ff; transform: translateY(-1px); }
+.fullscreen-button:focus-visible { outline: 3px solid #9252bd; outline-offset: 3px; }
+.quiz-progress-row .fullscreen-button { margin-left: 4px; }
+html:has(.is-expanded) { overflow: hidden; }
+.game-topic-page .game-panel.is-expanded,
+.subject-quiz-panel.is-expanded,
+.game-question-modal.is-expanded {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+  max-width: none;
+  max-height: 100dvh;
+  margin: 0;
+  padding: clamp(16px, 3vw, 40px);
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+  overflow: auto;
+}
+.game-topic-page .game-panel.is-expanded { padding: 16px 24px; }
+.game-panel.is-expanded .wheel-stage { --art-size: min(520px, 61cqh, 80cqw); }
+.game-panel.is-expanded .lotto-machine { --art-size: min(440px, 58cqh, 76cqw); }
+.game-panel.is-expanded .wheel-center { width: 100px; height: 100px; font-size: 13px; }
+.game-panel.is-expanded .wheel-center > span { font-size: 32px; }
+.game-panel.is-expanded .game-instruction { font-size: 16px; }
+.game-panel.is-expanded .team-card img { width: clamp(60px, 28cqh, 200px); height: clamp(60px, 28cqh, 200px); }
+.game-panel.is-expanded .team-card strong { font-size: clamp(16px, 2.5vw, 26px); }
+.game-question-modal[open].is-expanded,
+.subject-quiz-panel.is-expanded { display: flex; flex-direction: column; gap: 14px; }
+.game-question-modal.is-expanded > *,
+.subject-quiz-panel.is-expanded > * { width: 100%; max-width: 1120px; margin-left: auto; margin-right: auto; flex-shrink: 0; }
+.game-question-modal.is-expanded > .modal-heading { margin-bottom: 0; }
+.game-question-modal.is-expanded > .question-card,
+.subject-quiz-panel.is-expanded > .question-card { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: clamp(16px, 3vw, 38px); }
+.game-question-modal.is-expanded .question-title,
+.subject-quiz-panel.is-expanded .question-title { font-size: clamp(20px, 2.5vw, 30px); }
+.game-question-modal.is-expanded .question-options,
+.subject-quiz-panel.is-expanded .question-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.game-question-modal.is-expanded .question-option,
+.subject-quiz-panel.is-expanded .question-option { min-height: 92px; padding: 18px; font-size: clamp(18px, 2vw, 23px); }
+.game-question-modal.is-expanded > .modal-actions { margin-top: 0; padding-top: 0; }
+.subject-quiz-panel.is-expanded > .quiz-progress-row,
+.subject-quiz-panel.is-expanded > .quiz-navigation,
+.subject-quiz-panel.is-expanded > .quiz-hint,
+.subject-quiz-panel.is-expanded > .answer-feedback,
+.subject-quiz-panel.is-expanded > .question-toolbar,
+.game-question-modal.is-expanded > .answer-feedback { margin-top: 0; margin-bottom: 0; }
+
+@media (max-width: 700px) {
+  .panel-corner-actions { gap: 6px; }
+  .fullscreen-button.icon-button { width: 36px; height: 36px; }
+  .game-question-modal.is-expanded .question-options,
+  .subject-quiz-panel.is-expanded .question-options { grid-template-columns: 1fr; gap: 10px; }
+  .game-question-modal.is-expanded .question-option,
+  .subject-quiz-panel.is-expanded .question-option { min-height: 62px; padding: 10px 12px; font-size: 17px; }
+  .game-topic-page .game-panel.is-expanded { padding: 12px; }
+  .game-panel.is-expanded .wheel-center { width: 84px; height: 84px; font-size: 11px; }
+}

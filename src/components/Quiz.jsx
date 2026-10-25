@@ -4,8 +4,12 @@ import QuestionCard from "./QuestionCard";
 import EditActions from "./EditActions";
 import { api } from "../lib/api";
 import checkIcon from "../assets/check-circle.svg";
+import useFullscreen from "../hooks/useFullscreen";
+import FullscreenButton from "./FullscreenButton";
+import { subjectBackground } from "../lib/subjectBackgrounds";
 
 function Quiz({ topic, subjectTitle, user, onEdit, onDelete }) {
+  const fullscreen = useFullscreen();
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [feedbacks, setFeedbacks] = useState({});
@@ -15,6 +19,7 @@ function Quiz({ topic, subjectTitle, user, onEdit, onDelete }) {
   const question = topic.questions[index];
   const total = topic.questions.length;
   const feedback = question ? feedbacks[question.id] : null;
+  const background = subjectBackground(subjectTitle, index);
 
   function restart() {
     setIndex(0); setAnswers({}); setFeedbacks({}); setResult(null); setError("");
@@ -44,6 +49,7 @@ function Quiz({ topic, subjectTitle, user, onEdit, onDelete }) {
           answers: topic.questions.map((q) => ({ questionId: q.id, answer: answers[q.id] })),
         },
       });
+      fullscreen.collapse();
       setResult(grade);
     } catch (err) { setError(err.message); }
     finally { setBusy(false); }
@@ -64,10 +70,11 @@ function Quiz({ topic, subjectTitle, user, onEdit, onDelete }) {
   );
 
   return (
-    <div className="quiz-panel">
+    <div className={`quiz-panel subject-quiz-panel${fullscreen.expanded ? " is-expanded" : ""}`} style={background.style}>
       <div className="quiz-progress-row">
         <progress value={index + 1} max={total} aria-label="Savol tartibi" />
         <span className="question-counter" aria-live="polite">{index + 1} / {total}</span>
+        <FullscreenButton fullscreen={fullscreen} label="Savol" />
       </div>
       {user && <div className="question-toolbar"><span>O‘qituvchi boshqaruvi</span>
         <EditActions label={`Savol ${index + 1}`} onEdit={() => onEdit(question)} onDelete={() => onDelete(question)} />

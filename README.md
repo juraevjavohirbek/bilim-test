@@ -74,6 +74,8 @@ Javob berilgan raqam o'yindan chiqadi va qayta tushmaydi. Javobsiz yopilgan savo
 
 O'yin paneli va savol modali har bir fanga mos rasmli fon ishlatadi. Har fan uchun uchta SVG fon `src/assets/subject-backgrounds` ichida. Har yangi savolda fon almashadi; javobsiz yopilgan savol qayta ochilganda o'sha fon qoladi. Manba bezaklarini o'zgartirgach, fonlarni `node scripts/generate-subject-backgrounds.mjs` orqali qayta yaratish mumkin.
 
+O'yin paneli, savol modali va oddiy testning yuqori o'ng burchagidagi kattalashtirish belgisi butun ekranga yoyadi. Shu belgi yoki `Esc` bilan avvalgi o'lchamga qaytiladi. Brauzer ruxsat berganda native fullscreen, qolgan qurilmalarda ekran o'lchamidagi ko'rinish ishlatiladi.
+
 ## Tekshirish
 
 ```sh
