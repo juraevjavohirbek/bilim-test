@@ -4,6 +4,7 @@ import LottoBalls from "./LottoBalls";
 import { gameModes, remainingQuestions, pickUnusedQuestion, teamScores, wheelPoint, wheelRotation } from "../lib/gameModes";
 import bearHost from "../assets/bear-host.png";
 import rabbitHost from "../assets/rabbit-host.png";
+import { subjectBackground } from "../lib/subjectBackgrounds";
 
 const colors = ["#a454cf", "#dc567e", "#d9a027", "#258e79", "#e07739", "#6f62cb"];
 
@@ -91,12 +92,14 @@ export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDe
   const [duration, setDuration] = useState(2800);
   const [turn, setTurn] = useState(0);
   const [selectedTeam, setSelectedTeam] = useState(null);
+  const [selectedBackground, setSelectedBackground] = useState(0);
   const timer = useRef(null);
   const total = topic.questions.length;
   const done = Object.keys(answers).length;
   const selected = topic.questions[selectedIndex];
   const pending = Boolean(selected && !Object.hasOwn(answers, selected.id));
   const label = gameModes.find((item) => item.value === mode)?.label;
+  const background = subjectBackground(subjectTitle, { wheel: 0, lotto: 1, tug: 2 }[mode]);
 
   useEffect(() => () => clearTimeout(timer.current), []);
 
@@ -106,6 +109,7 @@ export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDe
     const index = pickUnusedQuestion(topic.questions, answers);
     if (index === null) return;
     setSelectedIndex(index);
+    setSelectedBackground(done % 3);
     setSelectedTeam(mode === "tug" ? turn : null);
     if (mode === "tug") { setModalOpen(true); return; }
     const milliseconds = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : mode === "wheel" ? 2800 : 2100;
@@ -128,6 +132,7 @@ export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDe
     clearTimeout(timer.current);
     setAnswers({}); setSelectedIndex(null); setModalOpen(false); setSpinning(false);
     setRotation(0); setTurn(0); setSelectedTeam(null);
+    setSelectedBackground(0);
   }
 
   if (!total) return <p>Hozircha savollar qo‘shilmagan.</p>;
@@ -135,7 +140,7 @@ export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDe
   const scores = teamScores(answers);
 
   return (
-    <div className={`game-panel game-${mode}`}>
+    <div className={`game-panel game-${mode} subject-game-panel`} data-theme={background.theme} style={background.style}>
       <div className="game-panel-header"><span className="game-label">{label}</span><span className="question-counter">{done} / {total} bajarildi</span></div>
       {done === total && !modalOpen ? (
         <div className="game-finished" role="status">
@@ -154,6 +159,7 @@ export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDe
         <p className="game-footnote">Har bir raqam mavzudagi bitta savolga teng. Javob berilgan savol qayta tushmaydi.</p>
       </>}
       {modalOpen && selected && <GameQuestionModal key={selected.id} question={selected} number={selectedIndex + 1}
+        backgroundVariant={selectedBackground}
         subjectTitle={subjectTitle} topicId={topic.id} team={selectedTeam} record={answers[selected.id]} user={user}
         onAnswered={recordAnswer} onClose={() => setModalOpen(false)} onEdit={onEdit} onDelete={onDelete} />}
     </div>

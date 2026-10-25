@@ -2,14 +2,16 @@ import { useEffect, useId, useRef, useState } from "react";
 import QuestionCard from "./QuestionCard";
 import EditActions from "./EditActions";
 import { api } from "../lib/api";
+import { subjectBackground } from "../lib/subjectBackgrounds";
 
-export default function GameQuestionModal({ question, number, subjectTitle, topicId, team, record, user, onAnswered, onClose, onEdit, onDelete }) {
+export default function GameQuestionModal({ question, number, subjectTitle, topicId, team, record, user, onAnswered, onClose, onEdit, onDelete, backgroundVariant = 0 }) {
   const dialog = useRef(null);
   const headingId = useId();
   const [selected, setSelected] = useState(record?.answer);
   const [feedback, setFeedback] = useState(record?.feedback ?? null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const background = subjectBackground(subjectTitle, backgroundVariant);
 
   useEffect(() => {
     const element = dialog.current;
@@ -33,6 +35,7 @@ export default function GameQuestionModal({ question, number, subjectTitle, topi
 
   return (
     <dialog ref={dialog} className="editor-modal game-question-modal" aria-labelledby={headingId}
+      data-theme={background.theme} data-background-variant={background.variant} style={background.style}
       onCancel={(event) => { event.preventDefault(); if (!busy) onClose(); }}>
       <div className="modal-heading">
         <h2 id={headingId}>{number}-savol{team !== null ? ` · ${team + 1}-jamoa` : ""}</h2>

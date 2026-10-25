@@ -1323,3 +1323,56 @@ progress::-moz-progress-bar { background: var(--primary-color); border-radius: 1
   .illustrated-subjects .subject-grid { grid-template-columns: 1fr; }
   .illustrated-subjects .subject-card { min-height: 96px; padding: 16px; background: color-mix(in srgb, var(--card-background) 88%, #fffdf6); }
 }
+
+/* O‘yin paneli va savol modali ham o‘z fanining rasmli fonini ishlatadi. */
+.game-panel.subject-game-panel {
+  background-color: var(--subject-paper);
+  background-image: linear-gradient(90deg, #fffdf747, #fffdf720 50%, #fffdf747), var(--subject-scene);
+  background-size: cover;
+  background-position: center;
+  border-color: color-mix(in srgb, var(--subject-ink) 34%, #fff7e7);
+  box-shadow: 0 7px 0 color-mix(in srgb, var(--subject-ink) 20%, #f5eadc);
+}
+.subject-game-panel .game-instruction,
+.subject-game-panel .draw-status { color: color-mix(in srgb, var(--subject-ink) 65%, #422d53); }
+.subject-game-panel .game-label,
+.subject-game-panel .question-counter { background: #fffdf3ed; border-color: color-mix(in srgb, var(--subject-ink) 25%, #fff7e7); color: #533b60; }
+.subject-game-panel .team-card { background: color-mix(in srgb, var(--subject-paper) 65%, white); border-color: color-mix(in srgb, var(--subject-ink) 30%, white); }
+.subject-game-panel .team-card.team-1 { background: #fff2dfed; }
+.subject-game-panel .team-card.is-active { border-color: var(--subject-ink); }
+.subject-game-panel .rope-arena { background: #fffaf2cb; }
+.game-question-modal {
+  background-color: var(--subject-paper);
+  background-image: linear-gradient(90deg, #fffefa73, #fffefa26), var(--subject-scene);
+  background-position: center;
+  background-size: cover;
+  border-color: color-mix(in srgb, var(--subject-ink) 45%, white);
+  box-shadow: 0 24px 100px #20152d66, inset 0 0 0 5px #ffffff80;
+}
+.game-question-modal .modal-heading { align-items: flex-start; }
+.game-question-modal .modal-heading h2 {
+  padding: 6px 12px;
+  border: 1px solid #ffffffcc;
+  border-radius: 12px;
+  background: #fffdf3d9;
+  color: color-mix(in srgb, var(--subject-ink) 65%, #422d53);
+}
+.game-question-modal .question-card {
+  background: #fffdf2c9;
+  border-color: #ffffffed;
+  box-shadow: 0 5px 0 color-mix(in srgb, var(--subject-ink) 12%, transparent);
+}
+.game-question-modal .question-title { padding: 10px; margin: -4px -4px 16px; border-radius: 14px; background: #fffdf5e8; }
+.game-question-modal .question-option { background-color: #fffdf8ed; border-color: color-mix(in srgb, var(--subject-ink) 22%, white); }
+.game-question-modal .question-option:has(input:checked):not(.is-correct):not(.is-wrong) { background-color: #f1e3ff; border-color: #a56ac4; }
+.game-question-modal .question-toolbar { padding: 8px; border-radius: 12px; background: #fffdf3e6; }
+.game-question-modal .modal-actions { padding-top: 8px; }
+.game-question-modal::backdrop { background: #28223b70; backdrop-filter: blur(6px); }
+
+@media (max-width: 600px) {
+  .game-question-modal { padding: 16px; background-position: 65% center; }
+  .game-question-modal .modal-heading h2 { font-size: 18px; }
+  .game-question-modal .question-card { padding: 12px; }
+  .game-question-modal .question-title { padding: 8px; font-size: 18px; }
+  .game-panel.subject-game-panel { background-position: 55% center; }
+}

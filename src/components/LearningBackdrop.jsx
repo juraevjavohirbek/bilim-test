@@ -1,20 +1,14 @@
 import schoolBackground from "../assets/school-background.png";
 
-const themes = {
-  "Ona tili": { key: "language", color: "#a75a80", paper: "#fff0ed", icon: "book", extras: ["pencil", "book"], marks: ["Aa", "O‘", "Bb"] },
-  Matematika: { key: "math", color: "#7761b4", paper: "#f0ebff", icon: "calculator", extras: ["ruler", "pencil"], marks: ["2 + 3", "×", "½"] },
-  Tarix: { key: "history", color: "#af7d38", paper: "#fff2d9", icon: "temple", extras: ["scroll", "compass"], marks: ["✦", "•", "✧"] },
-  Geografiya: { key: "geography", color: "#408f86", paper: "#e9f6ed", icon: "globe", extras: ["compass", "leaf"], marks: ["N", "E", "W"] },
-  "Tabiiy fanlar": { key: "nature", color: "#739345", paper: "#f1f6df", icon: "plant", extras: ["leaf", "globe"], marks: ["☀", "✦", "✧"] },
-  Informatika: { key: "computing", color: "#567fa3", paper: "#eaf2fa", icon: "computer", extras: ["calculator", "ruler"], marks: ["</>", "01", "{ }"] },
-  Fizika: { key: "physics", color: "#8870b4", paper: "#f4edff", icon: "atom", extras: ["ruler", "compass"], marks: ["F = ma", "+", "−"] },
-  Kimyo: { key: "chemistry", color: "#489e92", paper: "#e6f7f1", icon: "flask", extras: ["atom", "flask"], marks: ["H₂O", "O₂", "+"] },
-  Biologiya: { key: "biology", color: "#649858", paper: "#eaf6e5", icon: "leaf", extras: ["plant", "atom"], marks: ["DNA", "✦", "✧"] },
-  "Ingliz tili": { key: "english", color: "#b4775b", paper: "#fff0df", icon: "book", extras: ["pencil", "scroll"], marks: ["ABC", "Hello!", "Aa"] },
-};
+import { getSubjectTheme } from "../lib/subjectThemes";
+
 
 // Bezaklar mavjud ikonlar kabi SVG: tiniq qoladi va tashqi saytdan yuklanmaydi.
-function SubjectArt({ theme }) {
+export function SubjectArt({ theme, variant = 0 }) {
+  const icons = [theme.icon, ...theme.extras];
+  const primary = icons[variant % icons.length];
+  const secondary = icons[(variant + 1) % icons.length];
+  const tertiary = icons[(variant + 2) % icons.length];
   return <svg className="subject-backdrop-art" viewBox="0 0 480 620" fill="none" aria-hidden="true">
     <defs>
       <symbol id="school-book" viewBox="0 0 120 120">
@@ -64,16 +58,16 @@ function SubjectArt({ theme }) {
     </defs>
     <ellipse cx="272" cy="383" rx="177" ry="188" fill="currentColor" opacity=".07" />
     <path d="M51 493c-37-72 7-126 44-151M369 178c42-8 69 25 65 60M101 160l23-19M403 505l20 15" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity=".22" />
-    <g opacity=".8" transform="rotate(-9 270 380)"><use href={`#school-${theme.icon}`} x="113" y="240" width="290" height="290" /></g>
-    <g opacity=".55" transform="rotate(15 96 220)"><use href={`#school-${theme.extras[0]}`} x="28" y="135" width="120" height="120" /></g>
-    <g opacity=".55" transform="rotate(14 360 100)"><use href={`#school-${theme.extras[1]}`} x="292" y="37" width="120" height="120" /></g>
+    <g opacity=".8" transform="rotate(-9 270 380)"><use href={`#school-${primary}`} x="113" y="240" width="290" height="290" /></g>
+    <g opacity=".55" transform="rotate(15 96 220)"><use href={`#school-${secondary}`} x="28" y="135" width="120" height="120" /></g>
+    <g opacity=".55" transform="rotate(14 360 100)"><use href={`#school-${tertiary}`} x="292" y="37" width="120" height="120" /></g>
     {theme.marks.map((mark, index) => <text key={index} x={[185, 365, 80][index]} y={[108, 225, 569][index]} fill="currentColor" opacity=".5" fontFamily="Trebuchet MS, sans-serif" fontSize={[40, 27, 30][index]} fontWeight="700" transform={`rotate(${[-8, 9, -12][index]} ${[185, 365, 80][index]} ${[108, 225, 569][index]})`}>{mark}</text>)}
     {[[43, 92], [420, 309], [184, 582], [336, 555]].map(([x, y]) => <path key={x} d={`M${x - 7} ${y}h14M${x} ${y - 7}v14`} stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity=".3" />)}
   </svg>;
 }
 
 export default function LearningBackdrop({ subject }) {
-  const theme = subject ? themes[subject] ?? themes["Ona tili"] : null;
+  const theme = subject ? getSubjectTheme(subject) : null;
   return <div className={`learning-backdrop ${theme ? "learning-backdrop-subject" : "learning-backdrop-catalog"}`}
     data-theme={theme?.key ?? "school"} aria-hidden="true"
     style={theme ? { "--subject-ink": theme.color, "--subject-paper": theme.paper } : { "--school-wallpaper": `url("${schoolBackground}")` }}>

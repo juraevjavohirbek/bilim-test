@@ -72,6 +72,8 @@ Javob berilgan raqam o'yindan chiqadi va qayta tushmaydi. Javobsiz yopilgan savo
 
 `src/assets/bear-host.png` va `src/assets/rabbit-host.png` original, imagegen bilan yaratilgan qahramonlar. Animatsiya va o'yin mexanikasi kodda bajariladi.
 
+O'yin paneli va savol modali har bir fanga mos rasmli fon ishlatadi. Har fan uchun uchta SVG fon `src/assets/subject-backgrounds` ichida. Har yangi savolda fon almashadi; javobsiz yopilgan savol qayta ochilganda o'sha fon qoladi. Manba bezaklarini o'zgartirgach, fonlarni `node scripts/generate-subject-backgrounds.mjs` orqali qayta yaratish mumkin.
+
 ## Tekshirish
 
 ```sh
