@@ -906,29 +906,6 @@ progress::-moz-progress-bar { background: var(--primary-color); border-radius: 1
 .topic-toolbar .primary-button { gap: 8px; }
 .topic-toolbar img { width: 20px; height: 20px; filter: invert(1); }
 
-/* Javob tasdiqlangandan keyingi ranglar va ikonlar */
-.question-card .question-option.is-correct {
-  border-color: #15965a;
-  box-shadow: inset 0 0 0 1px #15965a;
-  background-color: #edfbf2;
-}
-
-.question-card .question-option.is-wrong {
-  border-color: #df334e;
-  box-shadow: inset 0 0 0 1px #df334e;
-  background-color: #fff0f3;
-}
-
-.question-option:has(input:disabled) { cursor: default; }
-.option-text { flex: 1; min-width: 0; }
-.answer-icon { width: 25px; height: 25px; flex-shrink: 0; }
-.answer-icon-correct { filter: invert(43%) sepia(79%) saturate(669%) hue-rotate(104deg) brightness(91%) contrast(95%); }
-.answer-icon-error { filter: invert(26%) sepia(77%) saturate(2715%) hue-rotate(334deg) brightness(90%) contrast(92%); }
-.question-card .question-option.is-correct .option-letter { color: #087b44; border-color: #a0d9ba; background: #ceefdc; }
-.question-card .question-option.is-wrong .option-letter { color: #bd233d; border-color: #efa6b6; background: #ffdae2; }
-.answer-feedback { margin-top: 18px; padding: 14px 16px; border: 2px solid; border-radius: 14px; font-size: 15px; font-weight: 700; }
-.feedback-correct { color: #087b44; border-color: #b3e1c9; background: #edfbf2; }
-.feedback-error { color: #bd233d; border-color: #f2c0cb; background: #fff2f5; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 
 /* O‘yin usulini tanlash */
@@ -1430,8 +1407,8 @@ html:has(.is-expanded) { overflow: hidden; }
 .game-panel.is-expanded .team-card strong { font-size: clamp(16px, 2.5vw, 26px); }
 .game-question-modal[open].is-expanded,
 .subject-quiz-panel.is-expanded { display: flex; flex-direction: column; gap: 14px; }
-.game-question-modal.is-expanded > *,
-.subject-quiz-panel.is-expanded > * { width: 100%; max-width: 1120px; margin-left: auto; margin-right: auto; flex-shrink: 0; }
+.game-question-modal.is-expanded > :not(dialog),
+.subject-quiz-panel.is-expanded > :not(dialog) { width: 100%; max-width: 1120px; margin-left: auto; margin-right: auto; flex-shrink: 0; }
 .game-question-modal.is-expanded > .modal-heading { margin-bottom: 0; }
 .game-question-modal.is-expanded > .question-card,
 .subject-quiz-panel.is-expanded > .question-card { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: clamp(16px, 3vw, 38px); }
@@ -1458,4 +1435,48 @@ html:has(.is-expanded) { overflow: hidden; }
   .subject-quiz-panel.is-expanded .question-option { min-height: 62px; padding: 10px 12px; font-size: 17px; }
   .game-topic-page .game-panel.is-expanded { padding: 12px; }
   .game-panel.is-expanded .wheel-center { width: 84px; height: 84px; font-size: 11px; }
+}
+
+/* Variant tanlangach javob alohida quvnoq oynada ko‘rsatiladi. */
+.answer-tap-hint { margin-top: 14px; text-align: center; color: #755e7c; font-size: 14px; }
+.game-question-modal .modal-actions:empty { display: none; }
+.answer-reaction-modal {
+  position: fixed;
+  inset: 0;
+  width: min(460px, calc(100% - 32px));
+  max-width: calc(100% - 32px);
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 32px 28px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 3px solid #d5b1ed;
+  border-radius: 30px;
+  color: #533464;
+  background: radial-gradient(circle at 50% 10%, #ffe9a6, transparent 65%), #fff5df;
+  box-shadow: 0 10px 0 #794c9b33, 0 25px 100px #24112b66;
+  text-align: center;
+}
+.answer-reaction-modal::backdrop { background: #28203c88; backdrop-filter: blur(5px); }
+.answer-reaction-modal.is-encouragement { background: radial-gradient(circle at 50% 10%, #e9dbff, transparent 65%), #fff6ea; }
+.reaction-emoji { display: block; position: relative; margin: 0 auto 12px; font-size: 78px; line-height: 1.2; animation: reaction-pop .5s ease-out; }
+.answer-reaction-modal h2 { position: relative; margin: 0 0 12px; color: #753d98; font-size: clamp(25px, 4vw, 34px); line-height: 1.25; }
+.answer-reaction-modal > p { position: relative; margin: 0 auto; max-width: 330px; line-height: 1.6; font-size: 16px; }
+.answer-reaction-modal .reaction-answer { margin-top: 16px; padding: 12px; border: 1px solid #e5d3b1; border-radius: 14px; background: #fffdf3; font-size: 14px; }
+.reaction-actions { display: flex; position: relative; justify-content: center; align-items: center; gap: 12px; margin-top: 24px; }
+.reaction-actions .primary-button { min-height: 46px; }
+.reaction-replay.icon-button { width: 44px; height: 44px; font-size: 22px; }
+.reaction-confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit; }
+.reaction-confetti i { position: absolute; top: -20px; left: calc(var(--piece) * 8% + 3%); width: 9px; height: 16px; border-radius: 3px; background: #b887db; animation: confetti-fall 1.7s ease-out both; animation-delay: calc(var(--piece) * .045s); }
+.reaction-confetti i:nth-child(3n) { background: #edbd55; }
+.reaction-confetti i:nth-child(3n + 1) { background: #ed9dbc; }
+@keyframes reaction-pop { from { transform: scale(.6) rotate(-10deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
+@keyframes confetti-fall { to { transform: translateY(440px) rotate(270deg); opacity: 0; } }
+@media (max-width: 600px) {
+  .answer-reaction-modal { padding: 26px 20px; border-radius: 24px; }
+  .reaction-emoji { font-size: 66px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reaction-emoji, .reaction-confetti i { animation: none; }
+  .reaction-confetti { display: none; }
 }

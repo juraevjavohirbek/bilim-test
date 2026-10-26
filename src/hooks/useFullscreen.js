@@ -53,6 +53,8 @@ export default function useFullscreen() {
     }
     function escape(event) {
       if (event.key !== "Escape" || !active.current) return;
+      const topDialog = [...document.querySelectorAll("dialog[open]")].at(-1);
+      if (topDialog && !topDialog.classList.contains("is-expanded")) return;
       // Ichkaridagi kattalashtirilgan modal birinchi bo‘lib yopishsin.
       if ([...expandedViews].at(-1) !== id) return;
       event.preventDefault();

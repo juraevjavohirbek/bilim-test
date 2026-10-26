@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import GameQuestionModal from "./GameQuestionModal";
 import LottoBalls from "./LottoBalls";
 import { gameModes, remainingQuestions, pickUnusedQuestion, teamScores, wheelPoint, wheelRotation } from "../lib/gameModes";
-import bearHost from "../assets/bear-host.png";
-import rabbitHost from "../assets/rabbit-host.png";
+import boyHost from "../assets/doppi-boy.png";
 import { subjectBackground } from "../lib/subjectBackgrounds";
 import useFullscreen from "../hooks/useFullscreen";
 import FullscreenButton from "./FullscreenButton";
@@ -15,7 +14,7 @@ function Wheel({ questions, answers, rotation, spinning, duration, onDraw, pendi
   const step = 360 / available.length;
   return (
     <div className="wheel-stage">
-      <img src={bearHost} alt="Barabanni ushlab turgan ayiqcha" className="game-character" />
+      <img src={boyHost} alt="Barabanni ushlab turgan do‘ppili bola" className="game-character" />
       <div className="wheel-shell">
         <span className="wheel-pointer" aria-hidden="true" />
         <svg viewBox="0 0 320 320" className="wheel-disc" role="img" aria-label={`${available.length} ta raqamli baraban`}
@@ -48,7 +47,7 @@ function Lotto({ questions, answers, spinning, selectedIndex, onDraw, pending })
   return (
     <div className="lotto-stage">
       <div className="lotto-machine">
-      <img src={rabbitHost} alt="Lotto o‘yinini olib borayotgan quyoncha" className="game-character" />
+      <img src={boyHost} alt="Lotto o‘yinini olib borayotgan do‘ppili bola" className="game-character" />
       <div className={`lotto-drum${spinning ? " is-spinning" : ""}`} aria-label={`${count} ta raqamli lotto`}>
         <LottoBalls questions={questions} answers={answers} spinning={spinning} colors={colors} />
         {!spinning && pending && selectedIndex !== null && <span className="lotto-selected" aria-hidden="true">{selectedIndex + 1}</span>}
@@ -68,7 +67,7 @@ function TugBoard({ answers, total, turn, onDraw, pending }) {
   return (
     <div className="tug-board">
       <div className="team-cards">
-        {[bearHost, rabbitHost].map((host, team) => <div key={team} className={`team-card team-${team}${turn === team ? " is-active" : ""}`}>
+        {[boyHost, boyHost].map((host, team) => <div key={team} className={`team-card team-${team}${turn === team ? " is-active" : ""}`}>
           <img src={host} alt="" />
           <strong>{team + 1}-jamoa</strong><span>{scores[team]} ball</span>
           {turn === team && <small>Hozir sizning navbatingiz!</small>}
@@ -154,7 +153,7 @@ export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDe
           <button type="button" className="primary-button" onClick={restart}>Qayta o‘ynash</button>
         </div>
       ) : <>
-        <p className="game-instruction">{mode === "wheel" ? "Ayiqcha bilan barabanni aylantiring!" : mode === "lotto" ? "Quyoncha bilan omadli raqamni toping!" : "Ikki jamoa — bitta quvnoq bellashuv!"}</p>
+        <p className="game-instruction">{mode === "wheel" ? "Do‘ppili do‘stimiz bilan barabanni aylantiring!" : mode === "lotto" ? "Do‘ppili do‘stimiz bilan omadli raqamni toping!" : "Ikki jamoa — bitta quvnoq bellashuv!"}</p>
         {mode === "wheel" && <Wheel questions={topic.questions} answers={answers} rotation={rotation} spinning={spinning} duration={duration} onDraw={draw} pending={pending} />}
         {mode === "lotto" && <Lotto questions={topic.questions} answers={answers} spinning={spinning} selectedIndex={selectedIndex} onDraw={draw} pending={pending} />}
         {mode === "tug" && <TugBoard answers={answers} total={total} turn={turn} onDraw={draw} pending={pending} />}

@@ -70,11 +70,13 @@ To'g'ri javoblar o'quvchining savollar ro'yxatiga yuborilmaydi. Javob berish va 
 
 Javob berilgan raqam o'yindan chiqadi va qayta tushmaydi. Javobsiz yopilgan savolni davom ettirish mumkin. O'yin sahifalari ekran balandligiga moslashadi.
 
-`src/assets/bear-host.png` va `src/assets/rabbit-host.png` original, imagegen bilan yaratilgan qahramonlar. Animatsiya va o'yin mexanikasi kodda bajariladi.
+`src/assets/doppi-boy.png` — imagegen bilan yaratilgan do'ppili bola. Baraban, lotto va jamoalar shu qahramondan foydalanadi. Animatsiya va o'yin mexanikasi kodda bajariladi.
 
 O'yin paneli va savol modali har bir fanga mos rasmli fon ishlatadi. Har fan uchun uchta SVG fon `src/assets/subject-backgrounds` ichida. Har yangi savolda fon almashadi; javobsiz yopilgan savol qayta ochilganda o'sha fon qoladi. Manba bezaklarini o'zgartirgach, fonlarni `node scripts/generate-subject-backgrounds.mjs` orqali qayta yaratish mumkin.
 
 O'yin paneli, savol modali va oddiy testning yuqori o'ng burchagidagi kattalashtirish belgisi butun ekranga yoyadi. Shu belgi yoki `Esc` bilan avvalgi o'lchamga qaytiladi. Brauzer ruxsat berganda native fullscreen, qolgan qurilmalarda ekran o'lchamidagi ko'rinish ishlatiladi.
+
+Variant bosilganda javob darhol serverda tekshiriladi; alohida tasdiqlash tugmasi yo'q. To'g'ri javob uchun Perfect, Bravo yoki Barakalla oynasi emoji va qarsak bilan chiqadi. Noto'g'ri javobda Afsus, keyingi safar oynasi va ikki qisqa buzzer eshitiladi. Javob variantlariga qizil-yashil belgilar qo'yilmaydi. Natija oynasidagi karnay tugmasi ovozni qayta eshittiradi. Ovozlar Web Audio orqali lokal yaratiladi. Oddiy testda davom etish keyingi savolga, o'yinda esa maydonga qaytaradi.
 
 ## Tekshirish
 

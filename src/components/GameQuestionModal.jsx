@@ -5,6 +5,8 @@ import { api } from "../lib/api";
 import { subjectBackground } from "../lib/subjectBackgrounds";
 import useFullscreen from "../hooks/useFullscreen";
 import FullscreenButton from "./FullscreenButton";
+import AnswerReactionModal from "./AnswerReactionModal";
+import { unlockFeedbackAudio } from "../lib/feedbackSounds";
 
 export default function GameQuestionModal({ question, number, subjectTitle, topicId, team, record, user, onAnswered, onClose, onEdit, onDelete, backgroundVariant = 0 }) {
   const dialog = useRef(null);
@@ -14,6 +16,8 @@ export default function GameQuestionModal({ question, number, subjectTitle, topi
   const [feedback, setFeedback] = useState(record?.feedback ?? null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [reaction, setReaction] = useState(null);
+  const checking = useRef(false);
   const background = subjectBackground(subjectTitle, backgroundVariant);
 
   useEffect(() => {
@@ -22,18 +26,23 @@ export default function GameQuestionModal({ question, number, subjectTitle, topi
     return () => element.close();
   }, []);
 
-  async function answer() {
+  async function answer(value) {
+    if (checking.current || feedback) return;
+    checking.current = true;
+    unlockFeedbackAudio();
+    setSelected(value);
     setBusy(true);
     setError("");
     try {
       const checked = await api("/answer", {
         method: "POST",
-        body: { subject: subjectTitle, topicId, questionId: question.id, answer: selected },
+        body: { subject: subjectTitle, topicId, questionId: question.id, answer: value },
       });
       setFeedback(checked);
-      onAnswered({ answer: selected, feedback: checked, team });
-    } catch (err) { setError(err.message); }
-    finally { setBusy(false); }
+      onAnswered({ answer: value, feedback: checked, team });
+      setReaction(checked);
+    } catch (err) { setError(err.message); setSelected(undefined); }
+    finally { setBusy(false); checking.current = false; }
   }
 
   return (
@@ -54,16 +63,14 @@ export default function GameQuestionModal({ question, number, subjectTitle, topi
       {user && <div className="question-toolbar"><span>O‘qituvchi boshqaruvi</span>
         <EditActions label={`Savol ${number}`} onEdit={() => { onClose(); onEdit(question); }} onDelete={() => { onClose(); onDelete(question); }} />
       </div>}
-      <QuestionCard question={question} number={number} selectedAnswer={selected} onSelect={setSelected} feedback={feedback} busy={busy} />
-      {feedback && <p className={`answer-feedback ${feedback.correct ? "feedback-correct" : "feedback-error"}`} role="status">
-        {feedback.correct ? "To‘g‘ri javob!" : `Noto‘g‘ri. To‘g‘ri javob: ${String.fromCharCode(65 + feedback.correctAnswer)} — ${question.options[feedback.correctAnswer]}.`}
-      </p>}
+      <QuestionCard question={question} number={number} selectedAnswer={selected} onSelect={answer} feedback={feedback} busy={busy} />
+      {!feedback && <p className="answer-tap-hint" role="status">{busy ? "Tekshirilmoqda..." : "Javob variantini bosing."}</p>}
       {error && <p className="form-error" role="alert">{error}</p>}
       <div className="modal-actions">
-        {feedback
-          ? <button type="button" className="primary-button" onClick={onClose}>O‘yinga qaytish</button>
-          : <button type="button" className="primary-button" disabled={busy || selected === undefined} onClick={answer}>{busy ? "Tekshirilmoqda..." : "Javob berish"}</button>}
+        {feedback && <button type="button" className="primary-button" onClick={onClose}>O‘yinga qaytish</button>}
       </div>
+      {reaction && <AnswerReactionModal feedback={reaction} number={number}
+        correctAnswer={question.options[reaction.correctAnswer]} continueLabel="O‘yinga qaytish" onContinue={onClose} />}
     </dialog>
   );
 }

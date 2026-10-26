@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import QuestionCard from "./QuestionCard";
 import EditActions from "./EditActions";
@@ -7,6 +7,8 @@ import checkIcon from "../assets/check-circle.svg";
 import useFullscreen from "../hooks/useFullscreen";
 import FullscreenButton from "./FullscreenButton";
 import { subjectBackground } from "../lib/subjectBackgrounds";
+import AnswerReactionModal from "./AnswerReactionModal";
+import { unlockFeedbackAudio } from "../lib/feedbackSounds";
 
 function Quiz({ topic, subjectTitle, user, onEdit, onDelete }) {
   const fullscreen = useFullscreen();
@@ -16,26 +18,36 @@ function Quiz({ topic, subjectTitle, user, onEdit, onDelete }) {
   const [result, setResult] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [reaction, setReaction] = useState(null);
+  const checking = useRef(false);
   const question = topic.questions[index];
   const total = topic.questions.length;
   const feedback = question ? feedbacks[question.id] : null;
   const background = subjectBackground(subjectTitle, index);
 
   function restart() {
-    setIndex(0); setAnswers({}); setFeedbacks({}); setResult(null); setError("");
+    setIndex(0); setAnswers({}); setFeedbacks({}); setResult(null); setError(""); setReaction(null);
   }
 
-  async function checkAnswer() {
+  async function checkAnswer(answer) {
+    if (checking.current || feedback || busy) return;
+    checking.current = true;
+    unlockFeedbackAudio();
+    setAnswers((current) => ({ ...current, [question.id]: answer }));
     setBusy(true);
     setError("");
     try {
       const checked = await api("/answer", {
         method: "POST",
-        body: { subject: subjectTitle, topicId: topic.id, questionId: question.id, answer: answers[question.id] },
+        body: { subject: subjectTitle, topicId: topic.id, questionId: question.id, answer },
       });
       setFeedbacks((current) => ({ ...current, [question.id]: checked }));
-    } catch (err) { setError(err.message); }
-    finally { setBusy(false); }
+      setReaction(checked);
+    } catch (err) {
+      setError(err.message);
+      setAnswers((current) => { const copy = { ...current }; delete copy[question.id]; return copy; });
+    }
+    finally { setBusy(false); checking.current = false; }
   }
 
   async function finish() {
@@ -81,27 +93,27 @@ function Quiz({ topic, subjectTitle, user, onEdit, onDelete }) {
       </div>}
       <QuestionCard key={question.id} question={question} number={index + 1}
         feedback={feedback} busy={busy}
-        selectedAnswer={answers[question.id]} onSelect={(answer) => setAnswers((current) => ({ ...current, [question.id]: answer }))} />
-      {feedback ? (
-        <p className={`answer-feedback ${feedback.correct ? "feedback-correct" : "feedback-error"}`} role="status">
-          {feedback.correct ? "To‘g‘ri javob!" : `Noto‘g‘ri. To‘g‘ri javob: ${String.fromCharCode(65 + feedback.correctAnswer)} — ${question.options[feedback.correctAnswer]}.`}
-        </p>
-      ) : <p className="quiz-hint">Variantni tanlang va “Javob berish” tugmasini bosing.</p>}
+        selectedAnswer={answers[question.id]} onSelect={checkAnswer} />
+      <p className="quiz-hint" role="status">{busy ? "Tekshirilmoqda..." : feedback ? "Javob qabul qilindi. Keyingi savolga o‘ting." : "Javob variantini bosing."}</p>
       {error && <p className="form-error" role="alert">{error}</p>}
       <div className="quiz-navigation">
         <button type="button" className="secondary-button" disabled={index === 0 || busy} onClick={() => setIndex(index - 1)}>← Oldingi</button>
-        {!feedback ? (
-          <button type="button" className="primary-button" disabled={busy || answers[question.id] === undefined} onClick={checkAnswer}>
-            {busy ? "Tekshirilmoqda..." : "Javob berish"}
-          </button>
-        ) : index < total - 1 ? (
-          <button type="button" className="primary-button" disabled={busy} onClick={() => { setError(""); setIndex(index + 1); }}>Keyingi →</button>
+        {index < total - 1 ? (
+          <button type="button" className="primary-button" disabled={busy || !feedback} onClick={() => { setError(""); setIndex(index + 1); }}>Keyingi →</button>
         ) : (
           <button type="button" className="primary-button" disabled={busy || topic.questions.some((q) => !feedbacks[q.id])} onClick={finish}>
             {busy ? "Tekshirilmoqda..." : "Yakunlash"}
           </button>
         )}
       </div>
+      {reaction && <AnswerReactionModal feedback={reaction} number={index + 1}
+        correctAnswer={question.options[reaction.correctAnswer]}
+        continueLabel={index < total - 1 ? "Keyingi savol →" : "Natijani ko‘rish"}
+        onContinue={() => {
+          setReaction(null);
+          if (index < total - 1) { setError(""); setIndex(index + 1); }
+          else finish();
+        }} />}
     </div>
   );
 }
