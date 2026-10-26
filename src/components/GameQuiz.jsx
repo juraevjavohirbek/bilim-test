@@ -6,6 +6,7 @@ import boyHost from "../assets/doppi-boy.png";
 import { subjectBackground } from "../lib/subjectBackgrounds";
 import useFullscreen from "../hooks/useFullscreen";
 import FullscreenButton from "./FullscreenButton";
+import { preloadFeedbackAudio } from "../lib/feedbackSounds";
 
 const colors = ["#a454cf", "#dc567e", "#d9a027", "#258e79", "#e07739", "#6f62cb"];
 
@@ -104,6 +105,7 @@ export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDe
   const background = subjectBackground(subjectTitle, { wheel: 0, lotto: 1, tug: 2 }[mode]);
 
   useEffect(() => () => clearTimeout(timer.current), []);
+  useEffect(() => { void preloadFeedbackAudio(); }, []);
 
   function draw() {
     if (spinning) return;
@@ -163,7 +165,8 @@ export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDe
       {modalOpen && selected && <GameQuestionModal key={selected.id} question={selected} number={selectedIndex + 1}
         backgroundVariant={selectedBackground}
         subjectTitle={subjectTitle} topicId={topic.id} team={selectedTeam} record={answers[selected.id]} user={user}
-        onAnswered={recordAnswer} onClose={() => setModalOpen(false)} onEdit={onEdit} onDelete={onDelete} />}
+        onAnswered={recordAnswer} onClose={() => setModalOpen(false)}
+        onContinue={() => { setModalOpen(false); draw(); }} onEdit={onEdit} onDelete={onDelete} />}
     </div>
   );
 }

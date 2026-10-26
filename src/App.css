@@ -1466,6 +1466,10 @@ html:has(.is-expanded) { overflow: hidden; }
 .reaction-actions { display: flex; position: relative; justify-content: center; align-items: center; gap: 12px; margin-top: 24px; }
 .reaction-actions .primary-button { min-height: 46px; }
 .reaction-replay.icon-button { width: 44px; height: 44px; font-size: 22px; }
+.reaction-countdown { color: #79578d; font-weight: 700; font-size: 14px; }
+.reaction-timer { position: relative; height: 6px; border-radius: 20px; background: #eaddf1; overflow: hidden; margin-top: 20px; }
+.reaction-timer span { display: block; height: 100%; background: #a56dbe; transform-origin: left; animation: reaction-countdown 3s linear forwards; }
+@keyframes reaction-countdown { from { transform: scaleX(1); } to { transform: scaleX(0); } }
 .reaction-confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: inherit; }
 .reaction-confetti i { position: absolute; top: -20px; left: calc(var(--piece) * 8% + 3%); width: 9px; height: 16px; border-radius: 3px; background: #b887db; animation: confetti-fall 1.7s ease-out both; animation-delay: calc(var(--piece) * .045s); }
 .reaction-confetti i:nth-child(3n) { background: #edbd55; }

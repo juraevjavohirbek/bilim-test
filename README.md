@@ -76,7 +76,7 @@ O'yin paneli va savol modali har bir fanga mos rasmli fon ishlatadi. Har fan uch
 
 O'yin paneli, savol modali va oddiy testning yuqori o'ng burchagidagi kattalashtirish belgisi butun ekranga yoyadi. Shu belgi yoki `Esc` bilan avvalgi o'lchamga qaytiladi. Brauzer ruxsat berganda native fullscreen, qolgan qurilmalarda ekran o'lchamidagi ko'rinish ishlatiladi.
 
-Variant bosilganda javob darhol serverda tekshiriladi; alohida tasdiqlash tugmasi yo'q. To'g'ri javob uchun Perfect, Bravo yoki Barakalla oynasi emoji va qarsak bilan chiqadi. Noto'g'ri javobda Afsus, keyingi safar oynasi va ikki qisqa buzzer eshitiladi. Javob variantlariga qizil-yashil belgilar qo'yilmaydi. Natija oynasidagi karnay tugmasi ovozni qayta eshittiradi. Ovozlar Web Audio orqali lokal yaratiladi. Oddiy testda davom etish keyingi savolga, o'yinda esa maydonga qaytaradi.
+Variant bosilganda javob darhol serverda tekshiriladi; alohida tasdiqlash tugmasi yo'q. To'g'ri javob uchun Perfect, Bravo yoki Barakalla oynasi emoji va qarsak bilan chiqadi. Noto'g'ri javobda Afsus, keyingi safar oynasi va ikki qisqa buzzer eshitiladi. Javob variantlariga qizil-yashil belgilar qo'yilmaydi. Natija oynasidagi karnay tugmasi ovozni qayta eshittiradi. Qarsak — assets ichidagi haqiqiy MP3 yozuvi; manba va public domain litsenziyasi src/assets/AUDIO-CREDITS.md da. Buzzer Web Audio orqali lokal yaratiladi. Natija oynasi 3 soniyadan keyin avtomatik yopilib, keyingi savolga o'tadi. Baraban va lotto keyingi raqamni avtomatik aylantirib tanlaydi; oxirgi savoldan keyin yakuniy natija chiqadi.
 
 ## Tekshirish
 

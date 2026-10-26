@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import QuestionCard from "./QuestionCard";
 import EditActions from "./EditActions";
@@ -8,7 +8,7 @@ import useFullscreen from "../hooks/useFullscreen";
 import FullscreenButton from "./FullscreenButton";
 import { subjectBackground } from "../lib/subjectBackgrounds";
 import AnswerReactionModal from "./AnswerReactionModal";
-import { unlockFeedbackAudio } from "../lib/feedbackSounds";
+import { preloadFeedbackAudio, unlockFeedbackAudio } from "../lib/feedbackSounds";
 
 function Quiz({ topic, subjectTitle, user, onEdit, onDelete }) {
   const fullscreen = useFullscreen();
@@ -24,6 +24,7 @@ function Quiz({ topic, subjectTitle, user, onEdit, onDelete }) {
   const total = topic.questions.length;
   const feedback = question ? feedbacks[question.id] : null;
   const background = subjectBackground(subjectTitle, index);
+  useEffect(() => { void preloadFeedbackAudio(); }, []);
 
   function restart() {
     setIndex(0); setAnswers({}); setFeedbacks({}); setResult(null); setError(""); setReaction(null);

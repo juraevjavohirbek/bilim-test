@@ -8,7 +8,7 @@ import FullscreenButton from "./FullscreenButton";
 import AnswerReactionModal from "./AnswerReactionModal";
 import { unlockFeedbackAudio } from "../lib/feedbackSounds";
 
-export default function GameQuestionModal({ question, number, subjectTitle, topicId, team, record, user, onAnswered, onClose, onEdit, onDelete, backgroundVariant = 0 }) {
+export default function GameQuestionModal({ question, number, subjectTitle, topicId, team, record, user, onAnswered, onClose, onContinue, onEdit, onDelete, backgroundVariant = 0 }) {
   const dialog = useRef(null);
   const fullscreen = useFullscreen();
   const headingId = useId();
@@ -70,7 +70,7 @@ export default function GameQuestionModal({ question, number, subjectTitle, topi
         {feedback && <button type="button" className="primary-button" onClick={onClose}>O‘yinga qaytish</button>}
       </div>
       {reaction && <AnswerReactionModal feedback={reaction} number={number}
-        correctAnswer={question.options[reaction.correctAnswer]} continueLabel="O‘yinga qaytish" onContinue={onClose} />}
+        correctAnswer={question.options[reaction.correctAnswer]} continueLabel="Keyingi savol" onContinue={onContinue} />}
     </dialog>
   );
 }
