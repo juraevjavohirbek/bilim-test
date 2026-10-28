@@ -1,4 +1,5 @@
 export const applauseUrl = new URL("../assets/applause.mp3", import.meta.url).href;
+export const feedbackDurationSeconds = 5;
 
 // Noto‘g‘ri javob uchun ikki qisqa buzzer.
 export function buzzerSamples(sampleRate = 24000) {
@@ -71,7 +72,9 @@ export async function playFeedbackSound(correct) {
     const source = context.createBufferSource();
     source.buffer = buffer;
     const volume = context.createGain();
-    const seconds = Math.min(correct ? 2 : 0.8, buffer.duration);
+    // Buzzerning qisqa namunasi takrorlanadi, qarsak haqiqiy yozuvdan yangraydi.
+    source.loop = !correct;
+    const seconds = correct ? Math.min(feedbackDurationSeconds, buffer.duration) : feedbackDurationSeconds;
     const start = context.currentTime;
     volume.gain.setValueAtTime(correct ? 0.9 : 0.65, start);
     volume.gain.setValueAtTime(correct ? 0.9 : 0.65, start + Math.max(0, seconds - 0.3));

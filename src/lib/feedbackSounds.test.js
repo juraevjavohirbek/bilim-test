@@ -28,18 +28,23 @@ test("recorded applause fades within the modal and cancelled loading cannot star
   const bytes = readFileSync(new URL(applauseUrl));
   const starts = [];
   const gains = [];
+  const loops = [];
   let finishDecoding;
   let stopped = 0;
   const recording = { duration: 10.76 };
   class AudioContext {
     state = "running";
     currentTime = 12;
+    sampleRate = 24000;
     decodeAudioData(data) {
       assert.deepEqual(Buffer.from(data), bytes);
       return new Promise((resolve) => { finishDecoding = resolve; });
     }
     createBufferSource() {
-      return { connect: () => ({ connect() {} }), disconnect() {}, start: (...args) => starts.push(args), stop: () => stopped++ };
+      return { loop: false, connect: () => ({ connect() {} }), disconnect() {}, start(...args) { starts.push(args); loops.push(this.loop); }, stop: () => stopped++ };
+    }
+    createBuffer(_channels, length, rate) {
+      return { duration: length / rate, copyToChannel() {} };
     }
     createGain() {
       return { gain: { setValueAtTime() {}, linearRampToValueAtTime: (...args) => gains.push(args) }, disconnect() {} };
@@ -61,8 +66,15 @@ test("recorded applause fades within the modal and cancelled loading cannot star
   await pending;
   assert.deepEqual(starts, []);
   await playFeedbackSound(true);
-  assert.deepEqual(starts, [[0, 0, 2]]);
-  assert.deepEqual(gains, [[0, 14]]);
+  assert.deepEqual(starts, [[0, 0, 5]]);
+  assert.deepEqual(gains, [[0, 17]]);
+  assert.deepEqual(loops, [false]);
   stopFeedbackSound();
   assert.equal(stopped, 1);
+  await playFeedbackSound(false);
+  assert.deepEqual(starts.at(-1), [0, 0, 5]);
+  assert.equal(loops.at(-1), true);
+  assert.deepEqual(gains.at(-1), [0, 17]);
+  stopFeedbackSound();
+  assert.equal(stopped, 2);
 });

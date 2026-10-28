@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef } from "react";
-import { playFeedbackSound, stopFeedbackSound } from "../lib/feedbackSounds";
+import { feedbackDurationSeconds, playFeedbackSound, stopFeedbackSound } from "../lib/feedbackSounds";
 
 const praise = [
   { title: "Perfect!", emoji: "🏆" },
@@ -19,7 +19,7 @@ export default function AnswerReactionModal({ feedback, number, correctAnswer, o
     const element = dialog.current;
     element.showModal();
     playFeedbackSound(feedback.correct);
-    const timer = setTimeout(() => continueRef.current(), 5000);
+    const timer = setTimeout(() => continueRef.current(), feedbackDurationSeconds * 1000);
     return () => { clearTimeout(timer); element.close(); stopFeedbackSound(); };
   }, [feedback.correct]);
 

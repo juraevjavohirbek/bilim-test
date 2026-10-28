@@ -161,14 +161,14 @@ export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDe
         {mode === "wheel" && <Wheel questions={topic.questions} answers={answers} rotation={rotation} spinning={spinning} duration={duration} onDraw={draw} pending={pending} />}
         {mode === "lotto" && <Lotto questions={topic.questions} answers={answers} spinning={spinning} selectedIndex={selectedIndex} onDraw={draw} pending={pending} />}
         {mode === "tug" && <TugBoard answers={answers} total={total} turn={turn} onDraw={draw} pending={pending} />}
-        <p className="draw-status" role="status">{spinning ? "Raqam tanlanmoqda..." : pending ? `${selectedIndex + 1}-savol tanlandi` : done ? `${total - done} ta savol qoldi. Yana aylantiring!` : "Birinchi savolni tanlang"}</p>
+        <p className="draw-status" role="status">{spinning ? "Raqam tanlanmoqda..." : pending ? `${selectedIndex + 1}-savol tanlandi` : done ? `${total - done} ta savol qoldi. ${mode === "tug" ? "Keyingi jamoa tugmasini bosing." : "Yana aylantiring!"}` : "Birinchi savolni tanlang"}</p>
         <p className="game-footnote">Har bir raqam mavzudagi bitta savolga teng. Javob berilgan savol qayta tushmaydi.</p>
       </>}
       {modalOpen && selected && <GameQuestionModal key={selected.id} question={selected} number={selectedIndex + 1}
         backgroundVariant={selectedBackground}
         subjectTitle={subjectTitle} topicId={topic.id} team={selectedTeam} record={answers[selected.id]} user={user}
         onAnswered={recordAnswer} onClose={() => setModalOpen(false)}
-        onContinue={() => { setModalOpen(false); draw(); }} onEdit={onEdit} onDelete={onDelete} />}
+        onContinue={() => setModalOpen(false)} onEdit={onEdit} onDelete={onDelete} />}
     </div>
   );
 }
