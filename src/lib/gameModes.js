@@ -5,6 +5,11 @@ export const gameModes = [
   { value: "tug", label: "Arqon tortish" },
 ];
 
+export function resultStars(correct, total) {
+  if (total > 0 && correct === total) return 3;
+  return total > 0 && correct / total >= 0.5 ? 2 : 1;
+}
+
 export function normalizeMode(value) {
   return gameModes.some((mode) => mode.value === value) ? value : "normal";
 }

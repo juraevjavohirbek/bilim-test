@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import QuestionCard from "./QuestionCard";
 import EditActions from "./EditActions";
 import { api } from "../lib/api";
-import checkIcon from "../assets/check-circle.svg";
+import ResultSummary from "./ResultSummary";
 import useFullscreen from "../hooks/useFullscreen";
 import FullscreenButton from "./FullscreenButton";
 import { subjectBackground } from "../lib/subjectBackgrounds";
@@ -69,18 +68,8 @@ function Quiz({ topic, subjectTitle, user, onEdit, onDelete }) {
   }
 
   if (!total) return <p>Hozircha savollar qo‘shilmagan.</p>;
-  if (result) return (
-    <div className="result-card" role="status">
-      <img src={checkIcon} alt="" />
-      <h2>Test yakunlandi!</h2>
-      <p>{result.total} ta savoldan {result.correct} tasiga to‘g‘ri javob berdingiz.</p>
-      <div className="result-score"><strong>{result.correct} / {result.total}</strong><span>{result.percentage}%</span></div>
-      <div className="quiz-navigation">
-        <button type="button" className="primary-button" onClick={restart}>Qayta yechish</button>
-        <Link to={`/subjects/${encodeURIComponent(subjectTitle)}`} className="secondary-button">Mavzularga qaytish</Link>
-      </div>
-    </div>
-  );
+  if (result) return <ResultSummary title="Test yakunlandi!" correct={result.correct} total={result.total}
+    onRestart={restart} subjectTitle={subjectTitle} />;
 
   return (
     <div className={`quiz-panel subject-quiz-panel${fullscreen.expanded ? " is-expanded" : ""}`} style={background.style}>

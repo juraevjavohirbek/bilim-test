@@ -46,10 +46,10 @@ function getTopic(data, subject, topicId) {
 
 function questionFields(body) {
   const text = requireText(body.text, "Savol", 2000);
-  if (!Array.isArray(body.options) || body.options.length !== 4) throw new ApiError(400, "4 ta javob variantini yozing.");
+  if (!Array.isArray(body.options) || body.options.length < 2 || body.options.length > 4) throw new ApiError(400, "2 tadan 4 tagacha javob variantini yozing.");
   const options = body.options.map((option) => requireText(option, "Variant", 500));
-  if (new Set(options.map((option) => option.toLowerCase())).size !== 4) throw new ApiError(400, "Javob variantlari bir-biridan farq qilishi kerak.");
-  if (!Number.isInteger(body.correctAnswer) || body.correctAnswer < 0 || body.correctAnswer > 3) throw new ApiError(400, "To‘g‘ri javobni tanlang.");
+  if (new Set(options.map((option) => option.toLowerCase())).size !== options.length) throw new ApiError(400, "Javob variantlari bir-biridan farq qilishi kerak.");
+  if (!Number.isInteger(body.correctAnswer) || body.correctAnswer < 0 || body.correctAnswer >= options.length) throw new ApiError(400, "To‘g‘ri javobni tanlang.");
   return { text, options, correctAnswer: body.correctAnswer };
 }
 

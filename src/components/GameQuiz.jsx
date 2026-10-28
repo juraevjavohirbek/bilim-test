@@ -6,6 +6,7 @@ import boyHost from "../assets/doppi-boy.png";
 import { subjectBackground } from "../lib/subjectBackgrounds";
 import useFullscreen from "../hooks/useFullscreen";
 import FullscreenButton from "./FullscreenButton";
+import ResultSummary from "./ResultSummary";
 import { preloadFeedbackAudio } from "../lib/feedbackSounds";
 
 const colors = ["#a454cf", "#dc567e", "#d9a027", "#258e79", "#e07739", "#6f62cb"];
@@ -76,7 +77,9 @@ function TugBoard({ answers, total, turn, onDraw, pending }) {
       </div>
       <div className="rope-arena" aria-label={`Arqon tortish hisobi: ${scores[0]} — ${scores[1]}`}>
         <span className="rope-center-line" aria-hidden="true" />
-        <div className="rope-slider" style={{ transform: `translateX(${offset}%)` }} aria-hidden="true"><div className="rope-line" /><span className="rope-knot">⚑</span></div>
+        <div className="rope-slider" style={{ transform: `translateX(${offset}%)` }} aria-hidden="true"><div className="rope-line" /><span className="rope-knot">
+          <svg viewBox="0 0 100 110" fill="none"><path d="M25 8v94" stroke="#4e2867" strokeWidth="8" strokeLinecap="round" /><path d="M30 12h60L74 35l16 23H30Z" fill="#ef3867" stroke="#fff5cf" strokeWidth="5" strokeLinejoin="round" /><path d="m56 22 3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1Z" fill="#fff3a0" /></svg>
+        </span></div>
         <span className="rope-ground" aria-hidden="true" />
       </div>
       <p className="game-instruction">To‘g‘ri javob arqonni jamoangiz tomoniga tortadi. Har javobdan keyin navbat almashadi.</p>
@@ -147,12 +150,10 @@ export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDe
     <div className={`game-panel game-${mode} subject-game-panel${fullscreen.expanded ? " is-expanded" : ""}`} data-theme={background.theme} style={background.style}>
       <div className="game-panel-header"><span className="game-label">{label}</span><div className="panel-corner-actions"><span className="question-counter">{done} / {total} bajarildi</span><FullscreenButton fullscreen={fullscreen} label="O‘yin" /></div></div>
       {done === total && !modalOpen ? (
-        <div className="game-finished" role="status">
-          <span className="game-trophy" aria-hidden="true">★</span>
-          <h2>O‘yin yakunlandi!</h2>
-          {mode === "tug" ? <><h3>{scores[0] === scores[1] ? "Do‘stlik g‘alaba qozondi!" : `${scores[0] > scores[1] ? 1 : 2}-jamoa g‘olib!`}</h3><p>1-jamoa: {scores[0]} ball · 2-jamoa: {scores[1]} ball</p></>
-            : <p>{total} ta savoldan {correct} ta to‘g‘ri javob — {Math.round(correct / total * 100)}%</p>}
-          <button type="button" className="primary-button" onClick={restart}>Qayta o‘ynash</button>
+        <div className="game-finished">
+          <ResultSummary title="O‘yin yakunlandi!" correct={correct} total={total} onRestart={restart} subjectTitle={subjectTitle}>
+            {mode === "tug" && <><h3>{scores[0] === scores[1] ? "Do‘stlik g‘alaba qozondi!" : `${scores[0] > scores[1] ? 1 : 2}-jamoa g‘olib!`}</h3><p>1-jamoa: {scores[0]} ball · 2-jamoa: {scores[1]} ball</p></>}
+          </ResultSummary>
         </div>
       ) : <>
         <p className="game-instruction">{mode === "wheel" ? "Do‘ppili do‘stimiz bilan barabanni aylantiring!" : mode === "lotto" ? "Do‘ppili do‘stimiz bilan omadli raqamni toping!" : "Ikki jamoa — bitta quvnoq bellashuv!"}</p>

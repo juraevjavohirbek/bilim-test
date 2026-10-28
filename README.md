@@ -87,3 +87,5 @@ npm run build
 ```
 
 Testlar mahalliy JSON API'ni va rasmiy Netlify Blobs SDK orqali test transportidagi omborni tekshiradi: CRUD, parallel yozish, yangi deploy, sessiya, chiqish, kirish cheklovi va o'yinlar. Ular haqiqiy Netlify hisobiga ma'lumot yozmaydi. Haqiqiy hosting tekshiruvini deploydan keyin yuqoridagi 5-qadam bilan bajaring.
+
+Savol editorida 2, 3 yoki 4 ta variant tanlanadi. Server ham shu miqdorni qabul qiladi va to‘g‘ri javob indeksini mavjud variantlarga nisbatan tekshiradi. Barcha rejimlar umumiy yirik natija oynasidan foydalanadi: 100% uchun 3 yulduz, kamida 50% uchun 2 yulduz, undan kam natijaga 1 yulduz. Arqon tortish bayrog‘i SVG ko‘rinishida kattalashtirildi; bosh sahifaga maktabga oid fon qo‘shildi.

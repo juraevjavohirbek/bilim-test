@@ -12,7 +12,7 @@ function EditorModal({ editor, onClose, onSave }) {
   const isQuestion = editor.kind === "question" || Boolean(question);
   const [title, setTitle] = useState(editor.topic?.title ?? "");
   const [text, setText] = useState(question?.text ?? "");
-  const [options, setOptions] = useState(question?.options ?? ["", "", "", ""]);
+  const [options, setOptions] = useState(question?.options ?? ["", ""]);
   const [correctAnswer, setCorrectAnswer] = useState(question?.correctAnswer ?? 0);
 
   useEffect(() => {
@@ -49,6 +49,15 @@ function EditorModal({ editor, onClose, onSave }) {
             <>
               <label>Savol matni
                 <textarea value={text} onChange={(event) => setText(event.target.value)} required maxLength={2000} rows={3} autoFocus />
+              </label>
+              <label>Javob variantlari soni
+                <select value={options.length} onChange={(event) => {
+                  const count = Number(event.target.value);
+                  setOptions((current) => Array.from({ length: count }, (_, index) => current[index] ?? ""));
+                  if (correctAnswer >= count) setCorrectAnswer(0);
+                }}>
+                  {[2, 3, 4].map((count) => <option key={count} value={count}>{count} ta variant</option>)}
+                </select>
               </label>
               {options.map((option, index) => (
                 <label key={index}>{String.fromCharCode(65 + index)} variant

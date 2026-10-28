@@ -25,7 +25,7 @@ export default function AnswerReactionModal({ feedback, number, correctAnswer, o
     return () => { clearInterval(countdown); clearTimeout(timer); element.close(); stopFeedbackSound(); };
   }, [feedback.correct]);
 
-  return <dialog ref={dialog} className={`answer-reaction-modal ${feedback.correct ? "is-celebration" : "is-encouragement"}`}
+  return <dialog ref={dialog} className={`answer-reaction-modal answer-feedback-modal ${feedback.correct ? "is-celebration" : "is-encouragement"}`}
     aria-labelledby={titleId} onCancel={(event) => event.preventDefault()}>
     {feedback.correct && <div className="reaction-confetti" aria-hidden="true">{Array.from({ length: 12 }, (_, index) => <i key={index} style={{ "--piece": index }} />)}</div>}
     <span className="reaction-emoji" aria-hidden="true">{message.emoji}</span>

@@ -1,7 +1,17 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { normalizeMode, modeQuery, remainingQuestions, pickUnusedQuestion, wheelRotation, teamScores } from "./gameModes.js";
+import { normalizeMode, modeQuery, remainingQuestions, pickUnusedQuestion, wheelRotation, teamScores, resultStars } from "./gameModes.js";
 import { stepLotto } from "./lottoPhysics.js";
+
+test("completion awards three stars only for all correct, two for at least half, one below half", () => {
+  assert.equal(resultStars(10, 10), 3);
+  assert.equal(resultStars(9, 10), 2);
+  assert.equal(resultStars(5, 10), 2);
+  assert.equal(resultStars(4, 10), 1);
+  assert.equal(resultStars(0, 10), 1);
+  assert.equal(resultStars(1, 1), 3);
+  assert.equal(resultStars(0, 0), 1);
+});
 
 test("invalid or missing game mode safely uses the normal quiz", () => {
   assert.equal(normalizeMode("wheel"), "wheel");

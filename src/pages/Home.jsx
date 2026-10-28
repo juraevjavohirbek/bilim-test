@@ -1,6 +1,7 @@
 //import pages
 import HeroSection from "../components/HeroSection"
 import SubjectCard from "../components/SubjectCard"
+import LearningBackdrop from "../components/LearningBackdrop";
 
 //import icons
 import bookIcon from "../assets/book.svg";
@@ -12,7 +13,8 @@ import monitorIcon from "../assets/monitor.svg";
 
 function Home() {
   return (
-    <div className="main-container">
+    <div className="main-container home-page">
+        <LearningBackdrop />
         <HeroSection/>
 
         <section className="subject-section container">

@@ -168,6 +168,23 @@ test("invalid additions do not modify JSON and topic names cannot be duplicated"
   assert.deepEqual(JSON.parse(await readFile(dataFile, "utf8")), fixture);
 });
 
+test("two and three options persist, can be edited and graded, and reject missing or excess answer keys", async (t) => {
+  const { request, login, dataFile } = await setup(t);
+  await login();
+  const body = { subject: "Ona tili", topicId: "ot", text: "Ikki variantli savol", options: ["Ha", "Yo‘q"], correctAnswer: 1 };
+  assert.equal((await request("/questions", "POST", body, true)).status, 200);
+  const saved = JSON.parse(await readFile(dataFile, "utf8"))["Ona tili"][0].questions.at(-1);
+  assert.deepEqual(saved.options, body.options);
+  const identify = { subject: body.subject, topicId: body.topicId, questionId: saved.id };
+  assert.deepEqual(await (await request("/answer", "POST", { ...identify, answer: 1 })).json(), { correct: true, correctAnswer: 1 });
+  assert.equal((await request("/answer", "POST", { ...identify, answer: 2 })).status, 400);
+  assert.equal((await request("/questions", "PATCH", { ...body, ...identify, options: ["Ha", "Yo‘q", "Balki"], correctAnswer: 2 }, true)).status, 200);
+  assert.equal((await request("/questions", "PATCH", { ...body, ...identify, correctAnswer: 0 }, true)).status, 200);
+  for (const changes of [{ options: ["Ha"] }, { options: ["A", "B", "C", "D", "E"] }, { correctAnswer: 2 }, { options: ["Ha", "ha"] }, { options: ["Ha", " "] }]) {
+    assert.equal((await request("/questions", "POST", { ...body, ...changes }, true)).status, 400);
+  }
+});
+
 test("answer checking returns correct/wrong feedback without changing JSON", async (t) => {
   const { request, dataFile } = await setup(t);
   const body = { subject: "Ona tili", topicId: "ot", questionId: 1, answer: 0 };

@@ -10,12 +10,12 @@ export default defineConfig({
       deny: ['.env', '.env.*', '*.{crt,pem}', '**/.git/**', '**/server/**', '**/data/**'],
     },
     proxy: {
-      '/api': 'http://127.0.0.1:3001',
+      '/api': { target: 'http://127.0.0.1:3001', changeOrigin: false },
     },
   },
   preview: {
     proxy: {
-      '/api': 'http://127.0.0.1:3001',
+      '/api': { target: 'http://127.0.0.1:3001', changeOrigin: false },
     },
   },
 })
