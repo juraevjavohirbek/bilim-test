@@ -78,7 +78,7 @@ function TugBoard({ answers, total, turn, onDraw, pending }) {
       <div className="rope-arena" aria-label={`Arqon tortish hisobi: ${scores[0]} — ${scores[1]}`}>
         <span className="rope-center-line" aria-hidden="true" />
         <div className="rope-slider" style={{ transform: `translateX(${offset}%)` }} aria-hidden="true"><div className="rope-line" /><span className="rope-knot">
-          <svg viewBox="0 0 100 110" fill="none"><path d="M25 8v94" stroke="#4e2867" strokeWidth="8" strokeLinecap="round" /><path d="M30 12h60L74 35l16 23H30Z" fill="#ef3867" stroke="#fff5cf" strokeWidth="5" strokeLinejoin="round" /><path d="m56 22 3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1Z" fill="#fff3a0" /></svg>
+          <svg viewBox="-40 0 130 110" fill="none"><path d="M25 8v94" stroke="#4e2867" strokeWidth="8" strokeLinecap="round" /><path d="M30 12h60L74 35l16 23H30Z" fill="#ef3867" stroke="#fff5cf" strokeWidth="5" strokeLinejoin="round" /><path d="m56 22 3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1Z" fill="#fff3a0" /></svg>
         </span></div>
         <span className="rope-ground" aria-hidden="true" />
       </div>
@@ -116,7 +116,8 @@ export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDe
     const index = pickUnusedQuestion(topic.questions, answers);
     if (index === null) return;
     setSelectedIndex(index);
-    setSelectedBackground(done % 3);
+    // Modal rasmi o‘yin panelidagi rasmga teng bo‘lmasin; savollar bilan almashadi.
+    setSelectedBackground((background.variant + 1 + done % 2) % 3);
     setSelectedTeam(mode === "tug" ? turn : null);
     if (mode === "tug") { setModalOpen(true); return; }
     const milliseconds = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : mode === "wheel" ? 2800 : 2100;

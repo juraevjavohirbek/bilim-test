@@ -70,7 +70,7 @@ export default function GameQuestionModal({ question, number, subjectTitle, topi
         {feedback && <button type="button" className="primary-button" onClick={onClose}>O‘yinga qaytish</button>}
       </div>
       {reaction && <AnswerReactionModal feedback={reaction} number={number}
-        correctAnswer={question.options[reaction.correctAnswer]} continueLabel="Keyingi savol" onContinue={onContinue} />}
+        correctAnswer={question.options[reaction.correctAnswer]} onContinue={onContinue} />}
     </dialog>
   );
 }

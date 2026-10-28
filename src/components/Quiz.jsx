@@ -98,7 +98,6 @@ function Quiz({ topic, subjectTitle, user, onEdit, onDelete }) {
       </div>
       {reaction && <AnswerReactionModal feedback={reaction} number={index + 1}
         correctAnswer={question.options[reaction.correctAnswer]}
-        continueLabel={index < total - 1 ? "Keyingi savol →" : "Natijani ko‘rish"}
         onContinue={() => {
           setReaction(null);
           if (index < total - 1) { setError(""); setIndex(index + 1); }
