@@ -1,25 +1,7 @@
 import SubjectCard from "./SubjectCard";
 import useTopics from "../hooks/useTopics";
 import LearningBackdrop from "./LearningBackdrop";
-import bookIcon from "../assets/book.svg";
-import calculatorIcon from "../assets/calculator.svg";
-import historyIcon from "../assets/history.svg";
-import globeIcon from "../assets/globe.svg";
-import flaskIcon from "../assets/flask.svg";
-import monitorIcon from "../assets/monitor.svg";
-
-const icons = {
-  "Ona tili": bookIcon,
-  Matematika: calculatorIcon,
-  Tarix: historyIcon,
-  Geografiya: globeIcon,
-  "Tabiiy fanlar": flaskIcon,
-  Informatika: monitorIcon,
-  Fizika: flaskIcon,
-  Kimyo: flaskIcon,
-  Biologiya: globeIcon,
-  "Ingliz tili": bookIcon,
-};
+import { subjectIcons, defaultSubjectIcon } from "../lib/subjectIcons";
 
 function SubjectList() {
   const { topics, error, loading } = useTopics();
@@ -37,7 +19,7 @@ function SubjectList() {
       {topics && (
         <div className="subject-grid">
           {Object.keys(topics).map((title) => (
-            <SubjectCard key={title} title={title} icon={icons[title] ?? bookIcon} />
+            <SubjectCard key={title} title={title} icon={subjectIcons[title] ?? defaultSubjectIcon} />
           ))}
         </div>
       )}

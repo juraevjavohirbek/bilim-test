@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import SubjectPage from "./pages/SubjectPage";
 import SubjectList from "./components/SubjectList";
 import TopicPage from "./pages/TopicPage";
+import Matching from "./pages/Matching";
 import { AppProvider } from "./context/AppContext";
 
 //import css
@@ -26,6 +27,8 @@ function App() {
             <Route path="/subjects" element={<SubjectList />} />
             <Route path="/subjects/:title" element={<SubjectPage />} />
             <Route path="/subjects/:title/topics/:topicId" element={<TopicPage />} />
+            <Route path="/matching" element={<Matching />} />
+            <Route path="/matching/:title" element={<Matching />} />
           </Routes>
         </main>
       </AppProvider>

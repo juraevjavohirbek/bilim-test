@@ -1,0 +1,102 @@
+{
+  "Ona tili": {
+    "title": "So‘z turkumlarini bog‘lang",
+    "pairs": [
+      { "id": "ot", "question": "Kitob", "answer": "Ot" },
+      { "id": "sifat", "question": "Chiroyli", "answer": "Sifat" },
+      { "id": "son", "question": "Besh", "answer": "Son" },
+      { "id": "fel", "question": "Yugurmoq", "answer": "Fe’l" },
+      { "id": "olmosh", "question": "Men", "answer": "Olmosh" }
+    ]
+  },
+  "Matematika": {
+    "title": "Amallar va natijalar",
+    "pairs": [
+      { "id": "add", "question": "7 + 5", "answer": "12" },
+      { "id": "subtract", "question": "15 − 6", "answer": "9" },
+      { "id": "multiply", "question": "4 × 6", "answer": "24" },
+      { "id": "divide", "question": "20 ÷ 5", "answer": "4" },
+      { "id": "double", "question": "8 + 8", "answer": "16" }
+    ]
+  },
+  "Tarix": {
+    "title": "Tarixiy shaxslar va meros",
+    "pairs": [
+      { "id": "temur", "question": "Amir Temur", "answer": "Temuriylar davlati asoschisi" },
+      { "id": "ulugbek", "question": "Mirzo Ulug‘bek", "answer": "Samarqanddagi rasadxona" },
+      { "id": "navoi", "question": "Alisher Navoiy", "answer": "«Xamsa» asari" },
+      { "id": "bobur", "question": "Zahiriddin Muhammad Bobur", "answer": "«Boburnoma» asari" },
+      { "id": "xorazmiy", "question": "Muhammad al-Xorazmiy", "answer": "Algebra faniga katta hissa qo‘shgan olim" }
+    ]
+  },
+  "Geografiya": {
+    "title": "Davlatlar va poytaxtlar",
+    "pairs": [
+      { "id": "uz", "question": "O‘zbekiston", "answer": "Toshkent" },
+      { "id": "jp", "question": "Yaponiya", "answer": "Tokio" },
+      { "id": "fr", "question": "Fransiya", "answer": "Parij" },
+      { "id": "gb", "question": "Buyuk Britaniya", "answer": "London" },
+      { "id": "eg", "question": "Misr", "answer": "Qohira" }
+    ]
+  },
+  "Tabiiy fanlar": {
+    "title": "Tabiatni kashf etamiz",
+    "pairs": [
+      { "id": "sun", "question": "Quyosh", "answer": "Yerga yorug‘lik va issiqlik beradi" },
+      { "id": "root", "question": "O‘simlik ildizi", "answer": "Tuproqdan suvni shimadi" },
+      { "id": "ice", "question": "Muz", "answer": "Suvning qattiq holati" },
+      { "id": "rain", "question": "Yomg‘ir", "answer": "Bulutdan tushadigan suv tomchilari" },
+      { "id": "wind", "question": "Shamol", "answer": "Havoning harakati" }
+    ]
+  },
+  "Informatika": {
+    "title": "Kompyuter qurilmalari",
+    "pairs": [
+      { "id": "keyboard", "question": "Klaviatura", "answer": "Matn kiritish qurilmasi" },
+      { "id": "monitor", "question": "Monitor", "answer": "Tasvirni ekranda ko‘rsatadi" },
+      { "id": "printer", "question": "Printer", "answer": "Hujjatni qog‘ozga chiqaradi" },
+      { "id": "mouse", "question": "Sichqoncha", "answer": "Ekrandagi ko‘rsatkichni boshqaradi" },
+      { "id": "speaker", "question": "Karnay", "answer": "Ovozni eshittiradi" }
+    ]
+  },
+  "Fizika": {
+    "title": "Kattaliklar va birliklar",
+    "pairs": [
+      { "id": "length", "question": "Uzunlik", "answer": "Metr — m" },
+      { "id": "mass", "question": "Massa", "answer": "Kilogramm — kg" },
+      { "id": "time", "question": "Vaqt", "answer": "Sekund — s" },
+      { "id": "force", "question": "Kuch", "answer": "Nyuton — N" },
+      { "id": "current", "question": "Elektr toki kuchi", "answer": "Amper — A" }
+    ]
+  },
+  "Kimyo": {
+    "title": "Elementlar va belgilar",
+    "pairs": [
+      { "id": "h", "question": "Vodorod", "answer": "H" },
+      { "id": "o", "question": "Kislorod", "answer": "O" },
+      { "id": "c", "question": "Uglerod", "answer": "C" },
+      { "id": "fe", "question": "Temir", "answer": "Fe" },
+      { "id": "au", "question": "Oltin", "answer": "Au" }
+    ]
+  },
+  "Biologiya": {
+    "title": "A’zolar va vazifalar",
+    "pairs": [
+      { "id": "heart", "question": "Yurak", "answer": "Qonni tanaga haydaydi" },
+      { "id": "lung", "question": "O‘pka", "answer": "Nafas olishda qatnashadi" },
+      { "id": "brain", "question": "Bosh miya", "answer": "Tana faoliyatini boshqaradi" },
+      { "id": "eye", "question": "Ko‘z", "answer": "Ko‘rish a’zosi" },
+      { "id": "ear", "question": "Quloq", "answer": "Eshitish a’zosi" }
+    ]
+  },
+  "Ingliz tili": {
+    "title": "So‘zlar va tarjimalar",
+    "pairs": [
+      { "id": "book", "question": "Book", "answer": "Kitob" },
+      { "id": "apple", "question": "Apple", "answer": "Olma" },
+      { "id": "sun", "question": "Sun", "answer": "Quyosh" },
+      { "id": "school", "question": "School", "answer": "Maktab" },
+      { "id": "friend", "question": "Friend", "answer": "Do‘st" }
+    ]
+  }
+}

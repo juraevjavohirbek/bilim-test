@@ -32,6 +32,9 @@ function Navbar() {
             <li className="navbar-item">
               <NavLink to="/subjects">Fanlar va savollar</NavLink>
             </li>
+            <li className="navbar-item">
+              <NavLink to="/matching">Bog‘lash</NavLink>
+            </li>
           </ul>
         </div>
 
