@@ -1,7 +1,9 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { connectMatch, connectionPath, shuffleMatchingColumns } from "../lib/matching";
 import useFullscreen from "../hooks/useFullscreen";
 import FullscreenButton from "./FullscreenButton";
+import AnswerReactionModal from "./AnswerReactionModal";
+import { preloadFeedbackAudio, unlockFeedbackAudio } from "../lib/feedbackSounds";
 
 export default function MatchingBoard({ activity }) {
   const fullscreen = useFullscreen();
@@ -19,7 +21,10 @@ export default function MatchingBoard({ activity }) {
   const [anchors, setAnchors] = useState({});
   const [message, setMessage] = useState("Savolni javobiga olib boring yoki ikkalasini ketma-ket bosing.");
   const [warning, setWarning] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
   const complete = matched.length === pairs.length;
+
+  useEffect(() => { void preloadFeedbackAudio(); }, []);
 
   useLayoutEffect(() => {
     const element = board.current;
@@ -44,6 +49,7 @@ export default function MatchingBoard({ activity }) {
 
   function choose(id) {
     if (matched.includes(id)) return;
+    unlockFeedbackAudio();
     setSelected(id);
     setWarning(false);
     setMessage("Endi unga mos javobni tanlang.");
@@ -64,7 +70,11 @@ export default function MatchingBoard({ activity }) {
     setMatched(next);
     setSelected(null);
     setWarning(false);
-    setMessage(next.length === pairs.length ? "Barakalla! Barcha juftliklarni to‘g‘ri bog‘ladingiz!" : "To‘g‘ri bog‘ladingiz! Keyingi juftlikni toping.");
+    setMessage(next.length === pairs.length ? "Barcha juftliklar bog‘landi." : "To‘g‘ri bog‘ladingiz! Keyingi juftlikni toping.");
+    if (next.length === pairs.length) {
+      unlockFeedbackAudio();
+      setShowCelebration(true);
+    }
   }
 
   function startDrag(event, id) {
@@ -105,6 +115,7 @@ export default function MatchingBoard({ activity }) {
 
   function restart() {
     cancelDrag();
+    setShowCelebration(false);
     setMatched([]); setSelected(null); setColumns(shuffleMatchingColumns(pairs)); setWarning(false);
     setMessage("Yangi urinish! Savolni mos javobga bog‘lang.");
   }
@@ -159,7 +170,9 @@ export default function MatchingBoard({ activity }) {
         </button>)}
       </div>
     </div>
-    {complete && <div className="matching-complete" role="status"><span aria-hidden="true">🏆</span><div><h2>Barakalla!</h2><p>Barcha {pairs.length} ta juftlik to‘g‘ri bog‘landi.</p></div></div>}
+    {showCelebration && <AnswerReactionModal feedback={{ correct: true }}
+      celebration={{ title: "Barakalla!", emoji: "🏆", description: `Barcha ${pairs.length} ta juftlikni to‘g‘ri bog‘ladingiz!` }}
+      onContinue={() => setShowCelebration(false)} />}
     <p className="matching-help">Savolni sichqoncha yoki barmoq bilan javobga torting. Klaviaturada Tab va Enter bilan tanlashingiz ham mumkin.</p>
   </div>;
 }

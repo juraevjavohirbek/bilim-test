@@ -7,11 +7,11 @@ const praise = [
   { title: "Barakalla!", emoji: "🌟" },
 ];
 
-export default function AnswerReactionModal({ feedback, number, correctAnswer, onContinue }) {
+export default function AnswerReactionModal({ feedback, number, correctAnswer, onContinue, celebration }) {
   const dialog = useRef(null);
   const continueRef = useRef(onContinue);
   const titleId = useId();
-  const message = feedback.correct ? praise[(number - 1) % praise.length] : { title: "Afsus, keyingi safar!", emoji: "💪" };
+  const message = feedback.correct ? celebration ?? praise[(number - 1) % praise.length] : { title: "Afsus, keyingi safar!", emoji: "💪" };
 
   useEffect(() => { continueRef.current = onContinue; }, [onContinue]);
 
@@ -28,7 +28,7 @@ export default function AnswerReactionModal({ feedback, number, correctAnswer, o
     {feedback.correct && <div className="reaction-confetti" aria-hidden="true">{Array.from({ length: 12 }, (_, index) => <i key={index} style={{ "--piece": index }} />)}</div>}
     <span className="reaction-emoji" aria-hidden="true">{message.emoji}</span>
     <h2 id={titleId}>{message.title}</h2>
-    <p>{feedback.correct ? "Ajoyib! To‘g‘ri javob topdingiz." : "Xafa bo‘lmang, keyingi savolda albatta uddalaysiz!"}</p>
+    <p>{feedback.correct ? celebration?.description ?? "Ajoyib! To‘g‘ri javob topdingiz." : "Xafa bo‘lmang, keyingi savolda albatta uddalaysiz!"}</p>
     {!feedback.correct && correctAnswer && <p className="reaction-answer">To‘g‘ri javob: <strong>{correctAnswer}</strong></p>}
   </dialog>;
 }
