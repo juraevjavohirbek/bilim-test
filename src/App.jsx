@@ -9,6 +9,7 @@ import SubjectPage from "./pages/SubjectPage";
 import SubjectList from "./components/SubjectList";
 import TopicPage from "./pages/TopicPage";
 import Matching from "./pages/Matching";
+import Crosswords from "./pages/Crosswords";
 import { AppProvider } from "./context/AppContext";
 
 //import css
@@ -29,6 +30,8 @@ function App() {
             <Route path="/subjects/:title/topics/:topicId" element={<TopicPage />} />
             <Route path="/matching" element={<Matching />} />
             <Route path="/matching/:title" element={<Matching />} />
+            <Route path="/crosswords" element={<Crosswords />} />
+            <Route path="/crosswords/:id" element={<Crosswords />} />
           </Routes>
         </main>
       </AppProvider>

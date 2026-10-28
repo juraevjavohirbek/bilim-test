@@ -1679,3 +1679,40 @@ html:has(.is-expanded) { overflow: hidden; }
   .matching-shell.is-expanded .matching-card { padding: 12px 8px; font-size: 15px; }
   .matching-shell.is-expanded .matching-column h2 { font-size: 18px; }
 }
+/* Savollar yuqorida, yoziladigan krasvord kataklari pastda. */
+.crossword-shell { padding: clamp(16px, 3vw, 30px); border: 2px solid #d9bce9; border-radius: 26px; background: #fffaf2f5; box-shadow: 0 8px 0 #d4bbdf66; }
+.crossword-clues-heading, .crossword-toolbar, .crossword-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.crossword-clues-heading h2 { margin: 0; font-size: 23px; }
+.crossword-clues-heading > span { color: #826690; font-size: 13px; }
+.crossword-clues { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 16px 0 24px; }
+.crossword-clue { display: flex; gap: 10px; text-align: left; align-items: flex-start; padding: 14px; border: 2px solid #e5d6eb; border-radius: 16px; background: #fffdf9; color: #51385f; font: inherit; font-size: 14px; line-height: 1.5; cursor: pointer; }
+.crossword-clue.is-active { background: #f0e3ff; border-color: #ad7ec8; }
+.crossword-clue:hover { border-color: #ad7ec8; }
+.crossword-clue:focus-visible { outline: 3px solid #8c4daf; outline-offset: 3px; }
+.crossword-clue small { display: block; margin-top: 7px; color: #92769c; font-size: 12px; }
+.crossword-clue-number { flex-shrink: 0; padding: 3px 6px; border-radius: 8px; background: #ffe6a8; color: #80591a; font-weight: 800; }
+.crossword-active-clue { display: flex; align-items: center; gap: 14px; padding: 14px 18px; margin-top: 20px; background: #fff0c7; border: 1px solid #e8cc86; border-radius: 14px; line-height: 1.5; }
+.crossword-active-clue strong { white-space: nowrap; font-size: 22px; color: #815b27; }
+.crossword-status { text-align: center; color: #7e5c90; font-size: 14px; line-height: 1.5; }
+.crossword-paper { padding: 20px 8px; border-radius: 20px; background: repeating-linear-gradient(0deg, #f5eef8 0px, #f5eef8 27px, #e9deee 28px); }
+.crossword-grid { --crossword-cell: clamp(32px, 6vw, 48px); display: grid; grid-template-columns: repeat(var(--crossword-columns), var(--crossword-cell)); gap: 4px; width: max-content; margin: auto; padding: 8px; background: #ad8ac0; border: 2px solid #9b74af; border-radius: 12px; }
+.crossword-block { height: var(--crossword-cell); border-radius: 5px; background: #c8b3d3; }
+.crossword-cell { position: relative; display: block; height: var(--crossword-cell); border-radius: 5px; background: #fffefa; box-shadow: 0 2px 0 #855a9a55; }
+.crossword-cell.is-word { background: #ead6ff; }
+.crossword-cell.is-current { background: #ffe7a0; outline: 3px solid #9b5cbb; z-index: 1; }
+.crossword-cell.is-invalid { background: #ffe0e0; outline: 2px solid #cc5d69; }
+.crossword-cell.is-solved { background: #d4f4df; }
+.crossword-cell-number { position: absolute; top: 2px; left: 4px; color: #7d5890; font-size: 10px; line-height: 1; pointer-events: none; }
+.crossword-cell input { display: block; width: 100%; height: 100%; min-width: 0; padding: 7px 1px 0; border: 0; border-radius: inherit; outline: none; background: transparent; color: #4f3064; text-align: center; text-transform: uppercase; font: inherit; font-size: clamp(19px, 4vw, 27px); font-weight: 800; caret-color: #9552b7; }
+@media (max-width: 800px) { .crossword-clues { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) {
+  .crossword-clues { grid-template-columns: 1fr; }
+  .crossword-shell { padding: 14px 10px; }
+  .crossword-clues-heading { gap: 6px; }
+  .crossword-toolbar { justify-content: center; }
+  .crossword-actions { gap: 8px; }
+  .crossword-actions button { padding: 10px 12px; font-size: 13px; }
+  .crossword-active-clue { padding: 12px; font-size: 14px; }
+  .crossword-paper { padding: 16px 0; }
+  .crossword-grid { gap: 3px; padding: 5px; }
+}

@@ -35,6 +35,9 @@ function Navbar() {
             <li className="navbar-item">
               <NavLink to="/matching">Bog‘lash</NavLink>
             </li>
+            <li className="navbar-item">
+              <NavLink to="/crosswords">Krasvord</NavLink>
+            </li>
           </ul>
         </div>
 

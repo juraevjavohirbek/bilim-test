@@ -1,0 +1,17 @@
+[
+  {
+    "id": "krasvord-1",
+    "title": "Krasvord 1",
+    "description": "Maktab, mevalar va bilim haqida",
+    "rows": 9,
+    "columns": 7,
+    "entries": [
+      { "id": "olma", "direction": "across", "row": 0, "column": 0, "answer": "OLMA", "clue": "Daraxtda o‘sadigan, qizil yoki yashil bo‘lishi mumkin bo‘lgan meva." },
+      { "id": "maktablar", "direction": "down", "row": 0, "column": 2, "answer": "MAKTABLAR", "clue": "Bolalar ta’lim oladigan muassasalar. Ko‘plikda yozing." },
+      { "id": "kitob", "direction": "across", "row": 2, "column": 2, "answer": "KITOB", "clue": "Sahifalarini ochib o‘qiymiz, undan bilim olamiz." },
+      { "id": "qalam", "direction": "across", "row": 4, "column": 1, "answer": "QALAM", "clue": "Yozish va rasm chizish uchun ishlatiladigan o‘quv quroli." },
+      { "id": "olim", "direction": "across", "row": 6, "column": 1, "answer": "OLIM", "clue": "Ilmiy izlanishlar olib boradigan, yangi bilimlarni kashf qiladigan kishi." },
+      { "id": "rasm", "direction": "across", "row": 8, "column": 2, "answer": "RASM", "clue": "Qog‘ozga qalam yoki bo‘yoq bilan chizilgan tasvir." }
+    ]
+  }
+]
