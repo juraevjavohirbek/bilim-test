@@ -71,7 +71,7 @@ export async function playFeedbackSound(correct) {
     const source = context.createBufferSource();
     source.buffer = buffer;
     const volume = context.createGain();
-    const seconds = Math.min(correct ? 2.8 : 0.8, buffer.duration);
+    const seconds = Math.min(correct ? 2 : 0.8, buffer.duration);
     const start = context.currentTime;
     volume.gain.setValueAtTime(correct ? 0.9 : 0.65, start);
     volume.gain.setValueAtTime(correct ? 0.9 : 0.65, start + Math.max(0, seconds - 0.3));

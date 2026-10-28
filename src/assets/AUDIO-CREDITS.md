@@ -1,9 +1,5 @@
 # Applause
 
-`applause.mp3` is the MP3 version of “Applause ii” by thore (PDSounds).
-The author released the recording into the public domain.
-
-Source and license: https://commons.wikimedia.org/wiki/File:Applause_ii.ogg
-
-The app plays up to 2.8 seconds and fades out before the feedback modal closes.
+`applause.mp3` is the user-provided recording `zvuk-aplodismentov-i-ovacii.mp3`.
+The app plays only its first 2 seconds, with a short fade at the end.
 The incorrect-answer buzzer is generated locally with Web Audio.

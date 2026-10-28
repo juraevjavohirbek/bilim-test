@@ -61,8 +61,8 @@ test("recorded applause fades within the modal and cancelled loading cannot star
   await pending;
   assert.deepEqual(starts, []);
   await playFeedbackSound(true);
-  assert.deepEqual(starts, [[0, 0, 2.8]]);
-  assert.deepEqual(gains, [[0, 14.8]]);
+  assert.deepEqual(starts, [[0, 0, 2]]);
+  assert.deepEqual(gains, [[0, 14]]);
   stopFeedbackSound();
   assert.equal(stopped, 1);
 });
