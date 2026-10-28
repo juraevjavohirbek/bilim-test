@@ -31,6 +31,17 @@ export function pickUnusedQuestion(questions, answers, random = Math.random) {
   return available[Math.min(available.length - 1, Math.floor(random() * available.length))].index;
 }
 
+// Bir o‘yin uchun aralashtirilgan tartib: asl 1, 2, 3... ketma-ketligi qolmasin.
+export function randomQuestionOrder(questions, random = Math.random) {
+  const order = questions.map((_, index) => index);
+  for (let index = order.length - 1; index > 0; index--) {
+    const other = Math.min(index, Math.floor(random() * (index + 1)));
+    [order[index], order[other]] = [order[other], order[index]];
+  }
+  if (order.length > 1 && order.every((value, index) => value === index)) order.push(order.shift());
+  return order;
+}
+
 // Ko‘rsatkich yuqorida turadi; tanlangan bo‘lakning markazi unga kelib to‘xtaydi.
 export function wheelRotation(current, index, count) {
   const target = 360 - (index + 0.5) * 360 / count;

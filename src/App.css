@@ -1662,3 +1662,20 @@ html:has(.is-expanded) { overflow: hidden; }
   .matching-page-heading { flex-wrap: wrap; }
   .matching-editor-actions { bottom: -20px; }
 }
+
+/* Bog‘lash maydonini ham mavjud o‘yinlar kabi butun ekranga yoyish. */
+.matching-shell.is-expanded { position: fixed; z-index: 1000; inset: 0; width: 100%; height: 100dvh; max-height: 100dvh; margin: 0; padding: clamp(16px, 3vw, 36px); border: 0; border-radius: 0; overflow: auto; display: flex; flex-direction: column; box-shadow: none; background-color: var(--match-paper, #fff8ed); }
+.matching-shell.is-expanded > :not(.matching-board) { width: 100%; max-width: 1500px; margin-left: auto; margin-right: auto; flex-shrink: 0; }
+.matching-shell.is-expanded .matching-board { width: 100%; max-width: 1500px; margin-left: auto; margin-right: auto; column-gap: clamp(66px, 12vw, 220px); }
+.matching-shell.is-expanded .matching-column { grid-auto-rows: minmax(76px, auto); gap: 16px; }
+.matching-shell.is-expanded .matching-card { font-size: clamp(18px, 2vw, 26px); padding: 16px 22px; }
+.matching-shell.is-expanded .matching-column h2 { font-size: 24px; }
+.matching-shell.is-expanded .matching-rope { stroke-width: 6; }
+@media (max-width: 600px) {
+  .matching-toolbar .panel-corner-actions { gap: 6px; }
+  .matching-toolbar .fullscreen-button { width: 36px; height: 40px; }
+  .matching-shell.is-expanded .matching-board { column-gap: 42px; }
+  .matching-shell.is-expanded .matching-column { grid-auto-rows: minmax(88px, auto); gap: 12px; }
+  .matching-shell.is-expanded .matching-card { padding: 12px 8px; font-size: 15px; }
+  .matching-shell.is-expanded .matching-column h2 { font-size: 18px; }
+}

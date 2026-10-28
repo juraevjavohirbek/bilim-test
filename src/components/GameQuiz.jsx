@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import GameQuestionModal from "./GameQuestionModal";
 import LottoBalls from "./LottoBalls";
-import { gameModes, remainingQuestions, pickUnusedQuestion, teamScores, wheelPoint, wheelRotation } from "../lib/gameModes";
+import { gameModes, remainingQuestions, pickUnusedQuestion, randomQuestionOrder, teamScores, wheelPoint, wheelRotation } from "../lib/gameModes";
 import boyHost from "../assets/doppi-boy.png";
 import { subjectBackground } from "../lib/subjectBackgrounds";
 import useFullscreen from "../hooks/useFullscreen";
@@ -99,6 +99,7 @@ export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDe
   const [turn, setTurn] = useState(0);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [selectedBackground, setSelectedBackground] = useState(0);
+  const [tugOrder, setTugOrder] = useState(() => randomQuestionOrder(topic.questions));
   const timer = useRef(null);
   const total = topic.questions.length;
   const done = Object.keys(answers).length;
@@ -113,7 +114,9 @@ export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDe
   function draw() {
     if (spinning) return;
     if (pending) { setModalOpen(true); return; }
-    const index = pickUnusedQuestion(topic.questions, answers);
+    const index = mode === "tug"
+      ? tugOrder.find((index) => !Object.hasOwn(answers, topic.questions[index].id)) ?? null
+      : pickUnusedQuestion(topic.questions, answers);
     if (index === null) return;
     setSelectedIndex(index);
     // Modal rasmi o‘yin panelidagi rasmga teng bo‘lmasin; savollar bilan almashadi.
@@ -141,6 +144,7 @@ export default function GameQuiz({ mode, topic, subjectTitle, user, onEdit, onDe
     setAnswers({}); setSelectedIndex(null); setModalOpen(false); setSpinning(false);
     setRotation(0); setTurn(0); setSelectedTeam(null);
     setSelectedBackground(0);
+    setTugOrder(randomQuestionOrder(topic.questions));
   }
 
   if (!total) return <p>Hozircha savollar qo‘shilmagan.</p>;

@@ -1,7 +1,10 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { connectMatch, connectionPath, shuffleMatchingColumns } from "../lib/matching";
+import useFullscreen from "../hooks/useFullscreen";
+import FullscreenButton from "./FullscreenButton";
 
 export default function MatchingBoard({ activity }) {
+  const fullscreen = useFullscreen();
   const { pairs } = activity;
   const board = useRef(null);
   const questions = useRef(new Map());
@@ -106,13 +109,16 @@ export default function MatchingBoard({ activity }) {
     setMessage("Yangi urinish! Savolni mos javobga bog‘lang.");
   }
 
-  return <div className="matching-shell">
+  return <div className={`matching-shell${fullscreen.expanded ? " is-expanded" : ""}`}>
     <div className="matching-toolbar">
       <div className="matching-progress" aria-label={`${matched.length} ta juftlik bog‘landi, jami ${pairs.length}`}>
         <span aria-hidden="true">{complete ? "★" : "✦"}</span>
         <strong>{matched.length} / {pairs.length}</strong><span>bog‘landi</span>
       </div>
-      <button type="button" className="secondary-button" onClick={restart}>↻ Qayta boshlash</button>
+      <div className="panel-corner-actions">
+        <button type="button" className="secondary-button" onClick={restart}>↻ Qayta boshlash</button>
+        <FullscreenButton fullscreen={fullscreen} label="Bog‘lash" />
+      </div>
     </div>
     <p className={`matching-message${warning ? " is-warning" : ""}`} role="status" aria-live="polite">{message}</p>
     <div className="matching-board" ref={board} onKeyDown={(event) => {

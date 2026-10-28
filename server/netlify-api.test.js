@@ -127,6 +127,22 @@ test("matching collections survive redeploys and concurrent teacher additions wi
   assert.ok([...service.entries.keys()].some((key) => key.endsWith("data/matching.json")));
 });
 
+test("deleting the last matching collection remains empty across Netlify cold starts", async () => {
+  const service = blobService();
+  const collection = { id: "last", title: "Ona tili 1", subject: "Ona tili", pairs: [{ id: "a", question: "Kitob", answer: "Ot" }] };
+  const makeApi = (matchingSeed) => createNetlifyApi({ getStore: service.getStore, accounts, seed, ...(matchingSeed ? { matchingSeed } : {}) });
+  const api = makeApi([collection]);
+  assert.deepEqual(await (await client(api)("/api/matching")).json(), [collection]);
+  assert.equal((await client(api)("/api/matching", "DELETE", { id: "last" })).status, 401);
+  const cookie = await login(api);
+  const deleted = await client(makeApi(), cookie)("/api/matching", "DELETE", { id: "last" });
+  assert.equal(deleted.status, 200);
+  assert.deepEqual(await deleted.json(), []);
+  assert.deepEqual(await (await client(makeApi())("/api/matching")).json(), []);
+  assert.equal((await client(makeApi(), cookie)("/api/matching", "DELETE", { id: "last" })).status, 404);
+  assert.equal((await (await client(makeApi())("/api/tests")).json())["Ona tili"].length, 1);
+});
+
 test("parallel Netlify instances retry ETag conflicts without losing added questions", async () => {
   const service = blobService();
   const makeApi = () => createNetlifyApi({ getStore: service.getStore, accounts, seed });

@@ -23,5 +23,9 @@ export default function useMatching() {
     setGroups(data); setError("");
     return data;
   }
-  return { groups, error, loading: groups === null && !error, save };
+  async function remove(id) {
+    const data = await api("/matching", { method: "DELETE", body: { id } });
+    setGroups(data); setError("");
+  }
+  return { groups, error, loading: groups === null && !error, save, remove };
 }

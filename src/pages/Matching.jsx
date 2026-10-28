@@ -8,13 +8,16 @@ import { defaultSubjectIcon, subjectIcons } from "../lib/subjectIcons";
 import useMatching from "../hooks/useMatching";
 import { useApp } from "../hooks/useApp";
 import editIcon from "../assets/edit.svg";
+import trashIcon from "../assets/trash.svg";
 
 export default function Matching() {
   const { title: groupId } = useParams();
   const navigate = useNavigate();
   const { user } = useApp();
-  const { groups, error, loading, save } = useMatching();
+  const { groups, error, loading, save, remove } = useMatching();
   const [editor, setEditor] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
+  const [deleteError, setDeleteError] = useState("");
   // Eski fan havolalari ham avvalgi tayyor mashqni ochadi.
   const group = groups?.find((item) => item.id === groupId) ?? groups?.find((item) => item.subject === groupId);
 
@@ -23,6 +26,14 @@ export default function Matching() {
     const saved = data.find((item) => item.id === values.id) ?? data.find((item) => item.title === values.title.trim());
     setEditor(null);
     navigate(`/matching/${encodeURIComponent(saved.id)}`);
+  }
+
+  async function deleteGroup(id) {
+    if (deletingId) return;
+    setDeletingId(id); setDeleteError("");
+    try { await remove(id); }
+    catch (error) { setDeleteError(error.message); }
+    finally { setDeletingId(null); }
   }
 
   const editorModal = editor && <MatchingEditor key={editor.group?.id ?? "new"} group={editor.group}
@@ -36,11 +47,16 @@ export default function Matching() {
     </div>
     {loading && <p role="status">To‘plamlar yuklanmoqda...</p>}
     {error && <p className="form-error" role="alert">{error}</p>}
+    {deleteError && <p className="form-error" role="alert">{deleteError}</p>}
     <div className="topic-list">{groups?.map((item, index) => <article className="topic-card matching-collection-card" key={item.id}>
       <Link to={`/matching/${encodeURIComponent(item.id)}`} className="topic-link">
         <span className="topic-number">{index + 1}</span><div><h2>{item.title}</h2><p>{item.pairs.length} ta savol va javob</p></div><span className="matching-row-arrow" aria-hidden="true">→</span>
       </Link>
-      {user && <button type="button" className="icon-button" aria-label={`${item.title} — tahrirlash`} onClick={() => setEditor({ group: item })}><img src={editIcon} alt="" /></button>}
+      {user && <div className="edit-actions">
+        <button type="button" className="icon-button" disabled={Boolean(deletingId)} aria-label={`${item.title} — tahrirlash`} onClick={() => setEditor({ group: item })}><img src={editIcon} alt="" /></button>
+        <button type="button" className="icon-button icon-danger" disabled={Boolean(deletingId)} aria-label={`${item.title} — o‘chirish`}
+          onClick={() => deleteGroup(item.id)}>{deletingId === item.id ? "…" : <img src={trashIcon} alt="" />}</button>
+      </div>}
     </article>)}</div>
     {groups?.length === 0 && <p>Hozircha to‘plam qo‘shilmagan.</p>}
     {editorModal}

@@ -1,7 +1,26 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { normalizeMode, modeQuery, remainingQuestions, pickUnusedQuestion, wheelRotation, teamScores, resultStars } from "./gameModes.js";
+import { normalizeMode, modeQuery, remainingQuestions, pickUnusedQuestion, randomQuestionOrder, wheelRotation, teamScores, resultStars } from "./gameModes.js";
 import { stepLotto } from "./lottoPhysics.js";
+
+test("tug order uses every question once and cannot remain the original sequential order", () => {
+  const questions = [{ id: "a" }, { id: "b" }, { id: "c" }, { id: "d" }];
+  for (const random of [() => 0, () => 0.999, () => 0.4]) {
+    const order = randomQuestionOrder(questions, random);
+    assert.deepEqual([...order].sort(), [0, 1, 2, 3]);
+    assert.notDeepEqual(order, [0, 1, 2, 3]);
+    const answered = {};
+    const drawn = [];
+    for (let i = 0; i < questions.length; i++) {
+      const index = order.find((index) => !Object.hasOwn(answered, questions[index].id));
+      drawn.push(index); answered[questions[index].id] = {};
+    }
+    assert.equal(new Set(drawn).size, questions.length);
+    assert.equal(order.find((index) => !Object.hasOwn(answered, questions[index].id)), undefined);
+  }
+  assert.deepEqual(randomQuestionOrder([]), []);
+  assert.deepEqual(randomQuestionOrder([{ id: 1 }]), [0]);
+});
 
 test("completion awards three stars only for all correct, two for at least half, one below half", () => {
   assert.equal(resultStars(10, 10), 3);

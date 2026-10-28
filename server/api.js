@@ -196,9 +196,17 @@ export function createApiHandler({ accounts = [], storage, matchingStorage,
         return send(200, { correct, total: topic.questions.length, percentage: Math.round(correct / topic.questions.length * 100) });
       }
 
-      if (["POST", "PATCH"].includes(method) && path === "/api/matching") {
+      if (["POST", "PATCH", "DELETE"].includes(method) && path === "/api/matching") {
         if (!current) throw new ApiError(401, "O‘zgartirish uchun o‘qituvchi sifatida kiring.");
         const body = await readBody(request);
+        if (method === "DELETE") {
+          const data = await matchingStorage.update((draft) => {
+            const index = draft.findIndex((item) => item.id === body.id);
+            if (index < 0) throw new ApiError(404, "Bog‘lash to‘plami topilmadi.");
+            draft.splice(index, 1);
+          });
+          return send(200, data);
+        }
         const fields = matchingFields(body);
         const newId = randomUUID();
         const data = await matchingStorage.update((draft) => {

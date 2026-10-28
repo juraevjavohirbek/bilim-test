@@ -56,6 +56,7 @@ test("matching groups can only be created and edited by teachers and persist sep
   const body = { title: "Ona tili 2", subject: "Ona tili", pairs: [{ question: "Kitob", answer: "Ot" }, { question: "Besh", answer: "Son" }] };
   assert.equal((await request("/matching", "POST", body)).status, 401);
   assert.equal((await request("/matching", "PATCH", { ...body, id: first[0].id })).status, 401);
+  assert.equal((await request("/matching", "DELETE", { id: first[0].id })).status, 401);
   await login();
   const created = await request("/matching", "POST", body, true);
   assert.equal(created.status, 200);
@@ -81,6 +82,11 @@ test("matching groups can only be created and edited by teachers and persist sep
   assert.equal((await request("/matching", "PATCH", { ...body, id: "missing" }, true)).status, 404);
   assert.equal(await readFile(matchingFile, "utf8"), before);
   assert.deepEqual(JSON.parse(await readFile(dataFile, "utf8")), fixture);
+  const removed = await request("/matching", "DELETE", { id: group.id }, true);
+  assert.equal(removed.status, 200);
+  assert.equal((await removed.json()).some((item) => item.id === group.id), false);
+  assert.equal(JSON.parse(await readFile(matchingFile, "utf8")).some((item) => item.id === group.id), false);
+  assert.equal((await request("/matching", "DELETE", { id: group.id }, true)).status, 404);
 });
 
 test("anonymous users cannot edit or delete JSON, and do not receive answer keys", async (t) => {
