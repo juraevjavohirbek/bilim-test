@@ -17,6 +17,7 @@ dist-ssr
 server/teachers.local.json
 .netlify
 data/matching.json
+data/crosswords.json
 
 # Editor directories and files
 .vscode/*

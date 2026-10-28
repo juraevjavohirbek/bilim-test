@@ -2,6 +2,7 @@ import { Readable } from "node:stream";
 import { createApiHandler } from "./api.js";
 import { createBlobStorage, createBlobState } from "./blob-storage.js";
 import { matchingSeed as defaultMatchingSeed } from "./matching-seed.js";
+import crosswordSeed from "../src/data/crosswords.json" with { type: "json" };
 
 // Netlify Fetch Request -> mahalliy server ham ishlatadigan API.
 // HTTP port ochilmaydi; so‘rov bitta serverless function ichida bajariladi.
@@ -10,6 +11,7 @@ export function createNetlifyApi({ getStore, seed, matchingSeed = defaultMatchin
     accounts,
     storage: createBlobStorage(getStore, seed),
     matchingStorage: createBlobStorage(getStore, matchingSeed, "data/matching.json"),
+    crosswordStorage: createBlobStorage(getStore, crosswordSeed, "data/crosswords.json"),
     state: createBlobState(getStore),
     secureCookies,
   });

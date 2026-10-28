@@ -64,6 +64,23 @@ async function login(api) {
   return cookie.split(";")[0];
 }
 
+test("generated crosswords survive Netlify cold starts and seed changes in a separate store", async () => {
+  const service = blobService();
+  const first = createNetlifyApi({ getStore: service.getStore, seed, accounts });
+  const auth = client(first, await login(first));
+  const body = { title: "Krasvord test", subject: "Ona tili", questions: [{ clue: "Meva", answer: "OLMA" }, { clue: "Yozish quroli", answer: "QALAM" }] };
+  const response = await auth("/api/crosswords", "POST", body);
+  assert.equal(response.status, 200);
+  const saved = (await response.json()).at(-1);
+  const restarted = createNetlifyApi({ getStore: service.getStore, seed: {}, accounts });
+  const read = await client(restarted)("/api/crosswords");
+  assert.deepEqual((await read.json()).at(-1), saved);
+  assert.equal((await client(restarted)("/api/crosswords", "PATCH", { ...body, id: saved.id })).status, 401);
+  const update = await client(restarted, await login(restarted))("/api/crosswords", "PATCH", { ...body, id: saved.id, title: "Yangilangan" });
+  assert.equal(update.status, 200);
+  assert.equal((await update.json()).at(-1).title, "Yangilangan");
+});
+
 test("Netlify CRUD, grading, sessions and logout survive cold starts and redeploys", async () => {
   const service = blobService();
   const makeApi = (initial = seed) => createNetlifyApi({ getStore: service.getStore, accounts, seed: initial });

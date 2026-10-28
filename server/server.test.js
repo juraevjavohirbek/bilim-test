@@ -28,6 +28,7 @@ async function setup(t) {
     await new Promise((ready) => server.close(ready));
     await unlink(dataFile);
     await unlink(matchingFile).catch((error) => { if (error.code !== "ENOENT") throw error; });
+    await unlink(join(directory, "crosswords.json")).catch((error) => { if (error.code !== "ENOENT") throw error; });
     await rmdir(directory);
   });
   let cookie = "";
@@ -46,6 +47,29 @@ async function setup(t) {
   }
   return { request, login, dataFile, matchingFile, base };
 }
+
+test("teachers generate and edit persistent crosswords, while invalid generation preserves saved data", async (t) => {
+  const { request, login, dataFile } = await setup(t);
+  const initial = await (await request("/crosswords")).json();
+  assert.equal(initial[0].id, "krasvord-1");
+  const body = { title: "Yangi krasvord", subject: "Ona tili", questions: [{ clue: "Meva", answer: "OLMA" }, { clue: "O‘quv quroli", answer: "QALAM" }] };
+  assert.equal((await request("/crosswords", "POST", body)).status, 401);
+  assert.equal((await request("/crosswords", "PATCH", { ...body, id: initial[0].id })).status, 401);
+  await login();
+  const created = await request("/crosswords", "POST", body, true);
+  assert.equal(created.status, 200);
+  const saved = (await created.json()).at(-1);
+  assert.equal(saved.entries.length, 2);
+  assert.equal((await request("/crosswords", "POST", body, true)).status, 409);
+  const edited = await request("/crosswords", "PATCH", { ...body, id: saved.id, title: "Tahrirlangan krasvord", questions: [{ clue: "Yangilangan savol", answer: "KITOB" }] }, true);
+  assert.equal(edited.status, 200);
+  assert.equal((await edited.json()).at(-1).entries[0].answer, "KITOB");
+  const invalid = await request("/crosswords", "PATCH", { ...body, id: saved.id, questions: [{ clue: "A", answer: "AAA" }, { clue: "B", answer: "BBB" }] }, true);
+  assert.equal(invalid.status, 400);
+  const stored = JSON.parse(await readFile(join(dataFile, "..", "crosswords.json"), "utf8"));
+  assert.equal(stored.at(-1).entries[0].clue, "Yangilangan savol");
+  assert.deepEqual(JSON.parse(await readFile(dataFile, "utf8")), fixture);
+});
 
 test("matching groups can only be created and edited by teachers and persist separately from tests", async (t) => {
   const { request, login, dataFile, matchingFile } = await setup(t);

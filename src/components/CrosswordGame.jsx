@@ -2,8 +2,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { assessCrossword, buildCrossword, normalizeCrosswordText } from "../lib/crossword";
 import { preloadFeedbackAudio, unlockFeedbackAudio } from "../lib/feedbackSounds";
 import AnswerReactionModal from "./AnswerReactionModal";
+import FullscreenButton from "./FullscreenButton";
+import useFullscreen from "../hooks/useFullscreen";
 
 export default function CrosswordGame({ puzzle }) {
+  const fullscreen = useFullscreen();
   const model = useMemo(() => buildCrossword(puzzle), [puzzle]);
   const inputs = useRef(new Map());
   const activeRef = useRef(model.entries[0].id);
@@ -87,8 +90,8 @@ export default function CrosswordGame({ puzzle }) {
     activate(model.entries[0].id); focusCell(model.entries[0].keys[0]);
   }
 
-  return <div className="crossword-shell">
-    <div className="crossword-clues-heading"><h2>Savollar</h2><span>→ Gorizontal · ↓ Vertikal</span></div>
+  return <div className={`crossword-shell${fullscreen.expanded ? " is-expanded" : ""}`} style={{ "--crossword-rows": model.rows }}>
+    <div className="crossword-clues-heading"><h2>{fullscreen.expanded ? `${puzzle.title} · Savollar` : "Savollar"}</h2><span>→ Gorizontal · ↓ Vertikal</span><FullscreenButton fullscreen={fullscreen} label="Savollar va krasvord" /></div>
     <div className="crossword-clues">{model.entries.map((entry) => <button type="button" key={entry.id}
       className={`crossword-clue${entry.id === activeId ? " is-active" : ""}`} aria-pressed={entry.id === activeId}
       onClick={() => selectClue(entry)}>

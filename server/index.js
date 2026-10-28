@@ -5,13 +5,14 @@ import { createApiHandler } from "./api.js";
 import { createFileStorage } from "./storage.js";
 import { loadTeachers } from "./teachers.js";
 import { matchingSeed } from "./matching-seed.js";
+import crosswordSeed from "../src/data/crosswords.json" with { type: "json" };
 
 const defaultDataFile = fileURLToPath(new URL("../data/tests.json", import.meta.url));
 
 // Bu entry faqat mahalliy serverga tegishli; Netlify uni import qilmaydi.
-export function createApiServer({ dataFile = defaultDataFile, matchingFile = join(dirname(dataFile), "matching.json"), accounts = loadTeachers(), ...options } = {}) {
+export function createApiServer({ dataFile = defaultDataFile, matchingFile = join(dirname(dataFile), "matching.json"), crosswordFile = join(dirname(dataFile), "crosswords.json"), accounts = loadTeachers(), ...options } = {}) {
   return createServer(createApiHandler({ storage: createFileStorage(dataFile),
-    matchingStorage: createFileStorage(matchingFile, matchingSeed), accounts, ...options }));
+    matchingStorage: createFileStorage(matchingFile, matchingSeed), crosswordStorage: createFileStorage(crosswordFile, crosswordSeed), accounts, ...options }));
 }
 
 export async function startApi(port = 3001) {

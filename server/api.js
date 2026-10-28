@@ -1,6 +1,7 @@
 import { createHash, randomBytes, randomUUID, scryptSync, timingSafeEqual } from "node:crypto";
 import { createMemoryState } from "./storage.js";
 import { subjectThemes } from "../src/lib/subjectThemes.js";
+import { generateCrossword } from "../src/lib/crossword.js";
 
 const sessionLifetime = 8 * 60 * 60 * 1000;
 
@@ -83,7 +84,7 @@ function matchingFields(body) {
   return { title, subject: body.subject, pairs };
 }
 
-export function createApiHandler({ accounts = [], storage, matchingStorage,
+export function createApiHandler({ accounts = [], storage, matchingStorage, crosswordStorage,
   state = createMemoryState(), secureCookies = false } = {}) {
   const salt = randomBytes(32);
   const users = accounts.map(({ password, ...user }) => ({
@@ -125,6 +126,7 @@ export function createApiHandler({ accounts = [], storage, matchingStorage,
         return send(200, current ? data : studentData(data));
       }
       if (method === "GET" && path === "/api/matching") return send(200, await matchingStorage.load());
+      if (method === "GET" && path === "/api/crosswords") return send(200, await crosswordStorage.load());
 
       // SameSite cookie va Origin tekshiruvi boshqa saytdan yozishni to‘sadi.
       if (request.headers.origin) {
@@ -194,6 +196,26 @@ export function createApiHandler({ accounts = [], storage, matchingStorage,
         }
         const correct = topic.questions.filter((q) => answers.get(String(q.id)) === q.correctAnswer).length;
         return send(200, { correct, total: topic.questions.length, percentage: Math.round(correct / topic.questions.length * 100) });
+      }
+
+      if (["POST", "PATCH"].includes(method) && path === "/api/crosswords") {
+        if (!current) throw new ApiError(401, "O‘zgartirish uchun o‘qituvchi sifatida kiring.");
+        const body = await readBody(request);
+        const title = requireText(body.title, "Krasvord nomi", 150);
+        if (!Object.hasOwn(subjectThemes, body.subject ?? "")) throw new ApiError(400, "Fanni tanlang.");
+        let generated;
+        try { generated = generateCrossword(body.questions); }
+        catch (error) { throw new ApiError(400, error.message); }
+        const newId = randomUUID();
+        const data = await crosswordStorage.update((draft) => {
+          const existing = method === "PATCH" ? draft.find((item) => item.id === body.id) : null;
+          if (method === "PATCH" && !existing) throw new ApiError(404, "Krasvord topilmadi.");
+          if (draft.some((item) => item.id !== existing?.id && item.title.toLowerCase() === title.toLowerCase())) throw new ApiError(409, "Bunday krasvord nomi mavjud.");
+          const fields = { title, subject: body.subject, description: `${generated.entries.length} ta savol`, ...generated };
+          if (existing) Object.assign(existing, fields);
+          else draft.push({ id: newId, ...fields });
+        });
+        return send(200, data);
       }
 
       if (["POST", "PATCH", "DELETE"].includes(method) && path === "/api/matching") {
