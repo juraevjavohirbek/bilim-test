@@ -16,6 +16,7 @@ dist-ssr
 !.env.example
 server/teachers.local.json
 .netlify
+data/matching.json
 
 # Editor directories and files
 .vscode/*

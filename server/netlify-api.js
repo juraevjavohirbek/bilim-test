@@ -1,13 +1,15 @@
 import { Readable } from "node:stream";
 import { createApiHandler } from "./api.js";
 import { createBlobStorage, createBlobState } from "./blob-storage.js";
+import { matchingSeed as defaultMatchingSeed } from "./matching-seed.js";
 
 // Netlify Fetch Request -> mahalliy server ham ishlatadigan API.
 // HTTP port ochilmaydi; so‘rov bitta serverless function ichida bajariladi.
-export function createNetlifyApi({ getStore, seed, accounts, secureCookies = true }) {
+export function createNetlifyApi({ getStore, seed, matchingSeed = defaultMatchingSeed, accounts, secureCookies = true }) {
   const handler = createApiHandler({
     accounts,
     storage: createBlobStorage(getStore, seed),
+    matchingStorage: createBlobStorage(getStore, matchingSeed, "data/matching.json"),
     state: createBlobState(getStore),
     secureCookies,
   });

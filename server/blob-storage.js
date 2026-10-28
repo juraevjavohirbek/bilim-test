@@ -12,8 +12,7 @@ async function modify(getStore, key, change) {
   throw Object.assign(new Error("Ma’lumot boshqa joyda o‘zgaryapti. Qayta urinib ko‘ring."), { status: 409 });
 }
 
-export function createBlobStorage(getStore, seed) {
-  const key = "data/tests.json";
+export function createBlobStorage(getStore, seed, key = "data/tests.json") {
   async function load() {
     const store = getStore();
     const data = await store.get(key, { type: "json", consistency: "strong" });

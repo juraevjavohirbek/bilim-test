@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from "react";
-import { connectMatch, connectionPath, shuffleAnswers } from "../lib/matching";
+import { connectMatch, connectionPath, shuffleMatchingColumns } from "../lib/matching";
 
 export default function MatchingBoard({ activity }) {
   const { pairs } = activity;
@@ -8,7 +8,8 @@ export default function MatchingBoard({ activity }) {
   const answerCards = useRef(new Map());
   const pointer = useRef(null);
   const skipClick = useRef(null);
-  const [answers, setAnswers] = useState(() => shuffleAnswers(pairs));
+  const [columns, setColumns] = useState(() => shuffleMatchingColumns(pairs));
+  const { questions: questionOrder, answers } = columns;
   const [matched, setMatched] = useState([]);
   const [selected, setSelected] = useState(null);
   const [drag, setDrag] = useState(null);
@@ -36,7 +37,7 @@ export default function MatchingBoard({ activity }) {
     for (const card of [...questions.current.values(), ...answerCards.current.values()]) observer.observe(card);
     window.addEventListener("resize", measure);
     return () => { observer.disconnect(); window.removeEventListener("resize", measure); };
-  }, [pairs, answers]);
+  }, [pairs, questionOrder, answers]);
 
   function choose(id) {
     if (matched.includes(id)) return;
@@ -101,7 +102,7 @@ export default function MatchingBoard({ activity }) {
 
   function restart() {
     cancelDrag();
-    setMatched([]); setSelected(null); setAnswers(shuffleAnswers(pairs)); setWarning(false);
+    setMatched([]); setSelected(null); setColumns(shuffleMatchingColumns(pairs)); setWarning(false);
     setMessage("Yangi urinish! Savolni mos javobga bog‘lang.");
   }
 
@@ -126,7 +127,7 @@ export default function MatchingBoard({ activity }) {
       </svg>
       <div className="matching-column">
         <h2><span aria-hidden="true">?</span> Savollar</h2>
-        {pairs.map((pair, index) => <button key={pair.id} type="button"
+        {questionOrder.map((pair, index) => <button key={pair.id} type="button"
           ref={(element) => { if (element) questions.current.set(pair.id, element); else questions.current.delete(pair.id); }}
           className={`matching-card matching-question${selected === pair.id ? " is-selected" : ""}${matched.includes(pair.id) ? " is-matched" : ""}`}
           aria-pressed={selected === pair.id} aria-label={`Savol: ${pair.question}`} disabled={matched.includes(pair.id)}

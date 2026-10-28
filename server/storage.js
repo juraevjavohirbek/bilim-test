@@ -1,9 +1,20 @@
-import { readFile, writeFile, rename, unlink } from "node:fs/promises";
+import { readFile, writeFile, rename, unlink, link } from "node:fs/promises";
 import { randomBytes } from "node:crypto";
 
-export function createFileStorage(dataFile) {
+export function createFileStorage(dataFile, seed) {
   let queue = Promise.resolve();
-  async function load() { return JSON.parse(await readFile(dataFile, "utf8")); }
+  async function load() {
+    try { return JSON.parse(await readFile(dataFile, "utf8")); }
+    catch (error) {
+      if (error.code !== "ENOENT" || seed === undefined) throw error;
+      const temporary = `${dataFile}.${randomBytes(6).toString("hex")}.tmp`;
+      try {
+        await writeFile(temporary, `${JSON.stringify(seed, null, 2)}\n`, { flag: "wx" });
+        await link(temporary, dataFile).catch((error) => { if (error.code !== "EEXIST") throw error; });
+      } finally { await unlink(temporary).catch(() => {}); }
+      return JSON.parse(await readFile(dataFile, "utf8"));
+    }
+  }
   return {
     load,
     update(change) {

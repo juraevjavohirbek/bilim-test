@@ -19,6 +19,7 @@ const fixture = {
 async function setup(t) {
   const directory = await mkdtemp(join(tmpdir(), "bilimtest-api-test-"));
   const dataFile = join(directory, "tests.json");
+  const matchingFile = join(directory, "matching.json");
   await writeFile(dataFile, JSON.stringify(fixture));
   const server = createApiServer({ dataFile, accounts });
   await new Promise((ready) => server.listen(0, "127.0.0.1", ready));
@@ -26,6 +27,7 @@ async function setup(t) {
   t.after(async () => {
     await new Promise((ready) => server.close(ready));
     await unlink(dataFile);
+    await unlink(matchingFile).catch((error) => { if (error.code !== "ENOENT") throw error; });
     await rmdir(directory);
   });
   let cookie = "";
@@ -42,8 +44,44 @@ async function setup(t) {
     cookie = response.headers.get("set-cookie").split(";")[0];
     assert.match(response.headers.get("set-cookie"), /HttpOnly/);
   }
-  return { request, login, dataFile, base };
+  return { request, login, dataFile, matchingFile, base };
 }
+
+test("matching groups can only be created and edited by teachers and persist separately from tests", async (t) => {
+  const { request, login, dataFile, matchingFile } = await setup(t);
+  const initial = await Promise.all([request("/matching"), request("/matching")]);
+  const [first, second] = await Promise.all(initial.map((response) => response.json()));
+  assert.equal(first[0].title, "Ona tili 1");
+  assert.deepEqual(first, second);
+  const body = { title: "Ona tili 2", subject: "Ona tili", pairs: [{ question: "Kitob", answer: "Ot" }, { question: "Besh", answer: "Son" }] };
+  assert.equal((await request("/matching", "POST", body)).status, 401);
+  assert.equal((await request("/matching", "PATCH", { ...body, id: first[0].id })).status, 401);
+  await login();
+  const created = await request("/matching", "POST", body, true);
+  assert.equal(created.status, 200);
+  const group = (await created.json()).at(-1);
+  assert.ok(group.id);
+  assert.equal(new Set(group.pairs.map((pair) => pair.id)).size, 2);
+  assert.equal((await request("/matching", "POST", body, true)).status, 409);
+  const updated = { ...group, title: "Tahrirlangan to‘plam", pairs: [...group.pairs, { question: "Chiroyli", answer: "Sifat" }] };
+  assert.equal((await request("/matching", "PATCH", updated, true)).status, 200);
+  const saved = JSON.parse(await readFile(matchingFile, "utf8"));
+  assert.equal(saved.at(-1).pairs.length, 3);
+  assert.equal(saved.at(-1).pairs[0].id, group.pairs[0].id);
+  assert.equal((await (await request("/matching")).json()).at(-1).title, updated.title);
+  const before = await readFile(matchingFile, "utf8");
+  for (const changes of [
+    { pairs: [] }, { subject: "Missing" }, { title: " " },
+    { pairs: [{ question: "A", answer: " " }] },
+    { pairs: [{ id: "same", question: "A", answer: "B" }, { id: "same", question: "C", answer: "D" }] },
+    { pairs: [{ question: "A", answer: "B" }, { question: "a", answer: "C" }] },
+    { pairs: [{ question: "A", answer: "B" }, { question: "C", answer: "b" }] },
+    { pairs: Array.from({ length: 31 }, (_, i) => ({ question: `Q${i}`, answer: `A${i}` })) },
+  ]) assert.equal((await request("/matching", "POST", { ...body, ...changes }, true)).status, 400);
+  assert.equal((await request("/matching", "PATCH", { ...body, id: "missing" }, true)).status, 404);
+  assert.equal(await readFile(matchingFile, "utf8"), before);
+  assert.deepEqual(JSON.parse(await readFile(dataFile, "utf8")), fixture);
+});
 
 test("anonymous users cannot edit or delete JSON, and do not receive answer keys", async (t) => {
   const { request, dataFile } = await setup(t);

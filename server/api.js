@@ -1,5 +1,6 @@
 import { createHash, randomBytes, randomUUID, scryptSync, timingSafeEqual } from "node:crypto";
 import { createMemoryState } from "./storage.js";
+import { subjectThemes } from "../src/lib/subjectThemes.js";
 
 const sessionLifetime = 8 * 60 * 60 * 1000;
 
@@ -64,7 +65,25 @@ function studentData(data) {
   ]));
 }
 
-export function createApiHandler({ accounts = [], storage,
+function matchingFields(body) {
+  const title = requireText(body.title, "To‘plam nomi", 150);
+  if (typeof body.subject !== "string" || !Object.hasOwn(subjectThemes, body.subject)) throw new ApiError(400, "To‘plam uchun fanni tanlang.");
+  if (!Array.isArray(body.pairs) || body.pairs.length < 1 || body.pairs.length > 30) throw new ApiError(400, "1 tadan 30 tagacha savol-javob juftligini kiriting.");
+  const pairs = body.pairs.map((pair) => {
+    if (!pair || typeof pair !== "object") throw new ApiError(400, "Savol va javobni kiriting.");
+    return {
+      id: typeof pair.id === "string" && /^[a-zA-Z0-9_-]{1,80}$/.test(pair.id) ? pair.id : randomUUID(),
+      question: requireText(pair.question, "Savol", 500),
+      answer: requireText(pair.answer, "Javob", 500),
+    };
+  });
+  for (const field of ["id", "question", "answer"]) {
+    if (new Set(pairs.map((pair) => pair[field].toLowerCase())).size !== pairs.length) throw new ApiError(400, "Savollar va javoblar takrorlanmasligi kerak.");
+  }
+  return { title, subject: body.subject, pairs };
+}
+
+export function createApiHandler({ accounts = [], storage, matchingStorage,
   state = createMemoryState(), secureCookies = false } = {}) {
   const salt = randomBytes(32);
   const users = accounts.map(({ password, ...user }) => ({
@@ -105,6 +124,7 @@ export function createApiHandler({ accounts = [], storage,
         const data = await load();
         return send(200, current ? data : studentData(data));
       }
+      if (method === "GET" && path === "/api/matching") return send(200, await matchingStorage.load());
 
       // SameSite cookie va Origin tekshiruvi boshqa saytdan yozishni to‘sadi.
       if (request.headers.origin) {
@@ -174,6 +194,21 @@ export function createApiHandler({ accounts = [], storage,
         }
         const correct = topic.questions.filter((q) => answers.get(String(q.id)) === q.correctAnswer).length;
         return send(200, { correct, total: topic.questions.length, percentage: Math.round(correct / topic.questions.length * 100) });
+      }
+
+      if (["POST", "PATCH"].includes(method) && path === "/api/matching") {
+        if (!current) throw new ApiError(401, "O‘zgartirish uchun o‘qituvchi sifatida kiring.");
+        const body = await readBody(request);
+        const fields = matchingFields(body);
+        const newId = randomUUID();
+        const data = await matchingStorage.update((draft) => {
+          const group = method === "PATCH" ? draft.find((item) => item.id === body.id) : null;
+          if (method === "PATCH" && !group) throw new ApiError(404, "Bog‘lash to‘plami topilmadi.");
+          if (draft.some((item) => item.id !== group?.id && item.title.toLowerCase() === fields.title.toLowerCase())) throw new ApiError(409, "Bunday to‘plam nomi mavjud.");
+          if (group) Object.assign(group, fields);
+          else draft.push({ id: newId, ...fields });
+        });
+        return send(200, data);
       }
 
       if (["POST", "PATCH", "DELETE"].includes(method) && ["/api/topics", "/api/questions"].includes(path)) {

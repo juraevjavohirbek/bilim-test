@@ -1622,3 +1622,43 @@ html:has(.is-expanded) { overflow: hidden; }
   .matching-card-number { width: 28px; height: 28px; }
   .matching-help { margin-top: 16px; font-size: 12px; }
 }
+
+/* Bog‘lash to‘plamlari va savol → javob tahrirlash oynasi. */
+.matching-collections { max-width: 1000px; }
+.matching-collection-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; margin-bottom: 24px; }
+.matching-collection-header .page-heading { margin: 0; }
+.matching-collections .topic-list { display: grid; gap: 14px; }
+.matching-collection-card { padding-right: 18px; background: #fffaf2ed; }
+.matching-collection-card .topic-link { min-width: 0; }
+.matching-collection-card h2 { font-size: 20px; }
+.matching-row-arrow { margin-left: auto; font-size: 26px; color: #9563af; }
+.matching-edit-button { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.matching-edit-button img { width: 19px; height: 19px; }
+.matching-editor { width: min(760px, calc(100% - 28px)); max-width: calc(100% - 28px); background: linear-gradient(135deg, #fff7e8, #f7efff); }
+.matching-editor-hint { margin: 0 0 22px; color: #786580; }
+.matching-editor-meta { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 18px; margin-bottom: 24px; }
+.matching-editor-pairs { display: grid; gap: 22px; }
+.matching-edit-pair { padding: 18px; background: #fffdf7; border: 2px solid #e3d2eb; border-radius: 22px; }
+.matching-pair-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; color: #76518d; }
+.matching-remove-pair { border: 1px solid #ddbcc4; border-radius: 10px; background: #fff0ed; color: #9b4d62; padding: 6px 10px; cursor: pointer; font: inherit; font-size: 12px; }
+.matching-edit-pair label { display: grid; gap: 9px; padding: 15px; border: 2px solid #d9c3e7; border-radius: 16px; background: #f3eaff; color: #5e3f75; font-weight: 700; }
+.matching-edit-pair label.matching-edit-answer { border-color: #ddc78d; background: #fff0c9; color: #7c602e; }
+.matching-edit-pair textarea { width: 100%; min-height: 70px; padding: 12px; border: 1px solid #dccde5; border-radius: 12px; background: #fffefb; color: #4d355e; font: inherit; font-weight: 400; resize: vertical; }
+.matching-editor-connector { display: flex; align-items: center; flex-direction: column; position: relative; height: 44px; width: 30px; margin: 0 auto; color: #a47bbf; font-size: 28px; line-height: 1.5; }
+.matching-editor-connector::before { content: ''; position: absolute; inset: 0 auto; width: 3px; background: #c1a1d4; z-index: 0; }
+.matching-editor-connector i { position: absolute; z-index: 1; width: 10px; height: 10px; border-radius: 50%; border: 2px solid #af8cc5; background: #fffaf1; }
+.matching-editor-connector i:first-child { top: -5px; }
+.matching-editor-connector i:last-child { bottom: -5px; }
+.matching-add-pair { width: 100%; margin-top: 22px; padding: 15px; border: 2px dashed #b58acb; border-radius: 16px; background: #f4e9ff; color: #764595; font: inherit; font-weight: 700; cursor: pointer; }
+.matching-add-pair:hover:not(:disabled) { background: #eadafa; }
+.matching-add-pair:disabled { opacity: .5; cursor: default; }
+.matching-editor-actions { position: sticky; bottom: -24px; padding: 20px 0 4px; margin-top: 20px; background: #fff7eff5; border-top: 1px solid #e4d5dd; }
+@media (max-width: 600px) {
+  .matching-editor { padding: 20px 14px; }
+  .matching-editor-meta { grid-template-columns: 1fr; }
+  .matching-edit-pair { padding: 12px; }
+  .matching-edit-pair label { padding: 12px; }
+  .matching-edit-button { margin-left: 0; }
+  .matching-page-heading { flex-wrap: wrap; }
+  .matching-editor-actions { bottom: -20px; }
+}

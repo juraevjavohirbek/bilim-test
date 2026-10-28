@@ -102,6 +102,31 @@ test("Netlify CRUD, grading, sessions and logout survive cold starts and redeplo
   assert.equal(saved["Ona tili"][0].questions.length, 1);
 });
 
+test("matching collections survive redeploys and concurrent teacher additions without changing quiz storage", async () => {
+  const service = blobService();
+  const makeApi = (matchingSeed) => createNetlifyApi({ getStore: service.getStore, accounts, seed, ...(matchingSeed ? { matchingSeed } : {}) });
+  const first = makeApi();
+  const initial = await (await client(first)("/api/matching")).json();
+  assert.equal(initial[0].title, "Ona tili 1");
+  const body = { subject: "Matematika", title: "Matematika 2", pairs: [{ question: "2 + 2", answer: "4" }, { question: "3 + 3", answer: "6" }] };
+  assert.equal((await client(first)("/api/matching", "POST", body)).status, 401);
+  const cookie = await login(first);
+  assert.equal((await client(first, cookie)("/api/matching", "POST", body)).status, 200);
+  const afterDeploy = makeApi([]);
+  const groups = await (await client(afterDeploy)("/api/matching")).json();
+  const group = groups.at(-1);
+  assert.equal(group.title, body.title);
+  assert.equal((await client(afterDeploy, cookie)("/api/matching", "PATCH", { ...group, title: "Hisoblash 2" })).status, 200);
+  const responses = await Promise.all([0, 1, 2].map((i) => client(makeApi(), cookie)("/api/matching", "POST", { ...body, title: `Yangi to‘plam ${i}` })));
+  assert.deepEqual(responses.map((response) => response.status), [200, 200, 200]);
+  const final = await (await client(makeApi([]))("/api/matching")).json();
+  assert.equal(final.length, initial.length + 4);
+  assert.equal(final.find((item) => item.id === group.id).title, "Hisoblash 2");
+  assert.equal(final.find((item) => item.id === group.id).pairs[0].id, group.pairs[0].id);
+  assert.equal((await (await client(makeApi())("/api/tests")).json())["Ona tili"][0].questions[0].text, seed["Ona tili"][0].questions[0].text);
+  assert.ok([...service.entries.keys()].some((key) => key.endsWith("data/matching.json")));
+});
+
 test("parallel Netlify instances retry ETag conflicts without losing added questions", async () => {
   const service = blobService();
   const makeApi = () => createNetlifyApi({ getStore: service.getStore, accounts, seed });

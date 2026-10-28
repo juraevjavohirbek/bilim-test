@@ -1,10 +1,22 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { connectMatch, shuffleAnswers } from "./matching.js";
+import { connectMatch, shuffleAnswers, shuffleMatchingColumns } from "./matching.js";
 import { subjectThemes } from "./subjectThemes.js";
 
 const activities = JSON.parse(readFileSync(new URL("../data/matching.json", import.meta.url), "utf8"));
+
+test("both columns are shuffled independently while pair IDs remain linked", () => {
+  const pairs = activities.Matematika.pairs;
+  const { questions, answers } = shuffleMatchingColumns(pairs, () => 0);
+  assert.notDeepEqual(questions, pairs);
+  assert.notDeepEqual(questions, answers);
+  assert.deepEqual(questions.map((pair) => pair.id).sort(), answers.map((pair) => pair.id).sort());
+  for (const question of questions) assert.equal(answers.find((answer) => answer.id === question.id).answer, question.answer);
+  assert.deepEqual(shuffleMatchingColumns([pairs[0]]), { questions: [pairs[0]], answers: [pairs[0]] });
+  const two = pairs.slice(0, 2);
+  assert.notDeepEqual(shuffleMatchingColumns(two, () => 0).questions, shuffleMatchingColumns(two, () => 0.999).questions);
+});
 
 test("every subject has one complete matching activity with unique questions, answers and IDs", () => {
   assert.deepEqual(Object.keys(activities).sort(), Object.keys(subjectThemes).sort());

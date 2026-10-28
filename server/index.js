@@ -1,15 +1,17 @@
 import { createServer } from "node:http";
 import { fileURLToPath } from "node:url";
-import { resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { createApiHandler } from "./api.js";
 import { createFileStorage } from "./storage.js";
 import { loadTeachers } from "./teachers.js";
+import { matchingSeed } from "./matching-seed.js";
 
 const defaultDataFile = fileURLToPath(new URL("../data/tests.json", import.meta.url));
 
 // Bu entry faqat mahalliy serverga tegishli; Netlify uni import qilmaydi.
-export function createApiServer({ dataFile = defaultDataFile, accounts = loadTeachers(), ...options } = {}) {
-  return createServer(createApiHandler({ storage: createFileStorage(dataFile), accounts, ...options }));
+export function createApiServer({ dataFile = defaultDataFile, matchingFile = join(dirname(dataFile), "matching.json"), accounts = loadTeachers(), ...options } = {}) {
+  return createServer(createApiHandler({ storage: createFileStorage(dataFile),
+    matchingStorage: createFileStorage(matchingFile, matchingSeed), accounts, ...options }));
 }
 
 export async function startApi(port = 3001) {
