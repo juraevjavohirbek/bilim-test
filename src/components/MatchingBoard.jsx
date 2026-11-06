@@ -128,7 +128,7 @@ export default function MatchingBoard({ activity }) {
       </div>
       <div className="panel-corner-actions">
         <button type="button" className="secondary-button" onClick={restart}>↻ Qayta boshlash</button>
-        <FullscreenButton fullscreen={fullscreen} label="Bog‘lash" />
+        <FullscreenButton fullscreen={fullscreen} label="Moslashtiring" />
       </div>
     </div>
     <p className={`matching-message${warning ? " is-warning" : ""}`} role="status" aria-live="polite">{message}</p>

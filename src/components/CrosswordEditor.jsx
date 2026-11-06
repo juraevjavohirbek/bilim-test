@@ -46,7 +46,7 @@ export default function CrosswordEditor({ puzzle, onClose, onSave }) {
       {preview && <section className="crossword-preview" aria-label="Tayyor krasvord namunasi"><h3>Krasvord tayyor — {preview.entries.length} ta savol joylashtirildi</h3>
         <div className="crossword-grid" style={{ "--crossword-columns": preview.columns }}>
           {Array.from({ length: preview.rows * preview.columns }, (_, index) => { const cell = preview.cells.get(`${Math.floor(index / preview.columns)}:${index % preview.columns}`);
-            return cell ? <span className="crossword-cell crossword-preview-letter" key={index}>{cell.number && <small className="crossword-cell-number">{cell.number}</small>}{cell.solution}</span> : <span className="crossword-block" key={index} />;
+            return cell ? <span className="crossword-cell crossword-preview-letter" style={{ gridRow: cell.row + 1, gridColumn: cell.column + 1 }} key={index}>{cell.number && <small className={`crossword-entry-number${preview.entries.some((entry) => entry.keys[0] === cell.key && entry.direction === "down") ? " is-down" : ""}`}>{cell.number}</small>}{cell.solution}</span> : null;
           })}
         </div><p>Joylashuv ma’qul bo‘lsa, saqlang. Savol yoki javob o‘zgarsa, qayta generatsiya qiling.</p>
       </section>}

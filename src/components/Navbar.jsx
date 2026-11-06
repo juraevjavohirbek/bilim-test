@@ -33,7 +33,7 @@ function Navbar() {
               <NavLink to="/subjects">Fanlar va savollar</NavLink>
             </li>
             <li className="navbar-item">
-              <NavLink to="/matching">Bog‘lash</NavLink>
+              <NavLink to="/matching">Moslashtiring</NavLink>
             </li>
             <li className="navbar-item">
               <NavLink to="/crosswords">Krasvord</NavLink>

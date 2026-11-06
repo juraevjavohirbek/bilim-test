@@ -30,7 +30,7 @@ export default function MatchingEditor({ group, onClose, onSave }) {
   return <dialog ref={dialog} className="editor-modal matching-editor" aria-labelledby={headingId}
     onCancel={(event) => { event.preventDefault(); if (!busy) onClose(); }}>
     <form onSubmit={submit}>
-      <div className="modal-heading"><h2 id={headingId}>{group ? "Bog‘lashni tahrirlash" : "Yangi bog‘lash to‘plami"}</h2>
+      <div className="modal-heading"><h2 id={headingId}>{group ? "Moslashtirishni tahrirlash" : "Yangi moslashtirish to‘plami"}</h2>
         <button type="button" className="icon-button" aria-label="Yopish" onClick={onClose} disabled={busy}>×</button></div>
       <p className="matching-editor-hint">Har bir savolning tagiga uning to‘g‘ri javobini yozing.</p>
       <fieldset className="modal-fields" disabled={busy}>

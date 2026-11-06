@@ -32,6 +32,15 @@ export function buildCrossword(puzzle) {
   return { rows: puzzle.rows, columns: puzzle.columns, cells, entries: entries.sort((a, b) => a.number - b.number) };
 }
 
+export function nextCrosswordEntry(model, activeId, values) {
+  const start = model.entries.findIndex((entry) => entry.id === activeId);
+  for (let step = 1; step <= model.entries.length; step++) {
+    const entry = model.entries[(start + step) % model.entries.length];
+    if (!entry.keys.every((key, index) => values[key] === entry.answer[index])) return entry;
+  }
+  return null;
+}
+
 export function assessCrossword(model, values) {
   const errors = [...model.cells.values()].filter((cell) => values[cell.key] && values[cell.key] !== cell.solution).map((cell) => cell.key);
   const filled = [...model.cells.keys()].filter((key) => values[key]).length;

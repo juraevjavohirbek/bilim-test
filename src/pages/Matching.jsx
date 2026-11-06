@@ -42,7 +42,7 @@ export default function Matching() {
   if (!groupId) return <section className="subject-section container matching-collections">
     <LearningBackdrop />
     <div className="matching-collection-header">
-      <div className="page-heading"><h1>Bog‘lash</h1><p>To‘plamni tanlang va savollarni javoblariga bog‘lang.</p></div>
+      <div className="page-heading"><h1>Moslashtiring</h1><p>To‘plamni tanlang va savollarni javoblariga bog‘lang.</p></div>
       {user && <button type="button" className="primary-button" onClick={() => setEditor({ group: null })}>+ Yangi to‘plam qo‘shish</button>}
     </div>
     {loading && <p role="status">To‘plamlar yuklanmoqda...</p>}
@@ -63,16 +63,16 @@ export default function Matching() {
   </section>;
 
   if (!group) return <section className="subject-section container">
-    <LearningBackdrop /><Link to="/matching" className="back-link">← Bog‘lash to‘plamlari</Link>
+    <LearningBackdrop /><Link to="/matching" className="back-link">← Moslashtiring to‘plamlari</Link>
     {loading ? <p role="status">To‘plam yuklanmoqda...</p> : <h1>{error || "To‘plam topilmadi"}</h1>}
   </section>;
   const theme = getSubjectTheme(group.subject);
   return <section className="subject-section container matching-page" style={{ "--match-ink": theme.color, "--match-paper": theme.paper }}>
     <LearningBackdrop subject={group.subject} />
-    <Link to="/matching" className="back-link">← Bog‘lash to‘plamlari</Link>
+    <Link to="/matching" className="back-link">← Moslashtiring to‘plamlari</Link>
     <div className="matching-page-heading">
       <span className="matching-subject-icon" aria-hidden="true"><img src={subjectIcons[group.subject] ?? defaultSubjectIcon} alt="" /></span>
-      <div className="page-heading"><p>{group.subject} · Bog‘lash</p><h1>{group.title}</h1></div>
+      <div className="page-heading"><p>{group.subject} · Moslashtiring</p><h1>{group.title}</h1></div>
       {user && <button type="button" className="secondary-button matching-edit-button" onClick={() => setEditor({ group })}><img src={editIcon} alt="" /> Tahrirlash</button>}
     </div>
     {error && <p className="form-error" role="alert">{error}</p>}

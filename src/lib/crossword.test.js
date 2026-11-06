@@ -1,9 +1,22 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { assessCrossword, buildCrossword, generateCrossword, normalizeCrosswordText } from "./crossword.js";
+import { assessCrossword, buildCrossword, generateCrossword, nextCrosswordEntry, normalizeCrosswordText } from "./crossword.js";
 
 const puzzles = JSON.parse(await readFile(new URL("../data/crosswords.json", import.meta.url), "utf8"));
+test("correct words advance by clue number, skip solved words, wrap and stop at completion", () => {
+  const model = buildCrossword(puzzles[0]); const values = {};
+  const [first, second, third] = model.entries;
+  first.keys.forEach((key, index) => { values[key] = first.answer[index]; });
+  assert.equal(nextCrosswordEntry(model, first.id, values).id, second.id);
+  second.keys.forEach((key, index) => { values[key] = second.answer[index]; });
+  assert.equal(nextCrosswordEntry(model, first.id, values).id, third.id);
+  assert.equal(nextCrosswordEntry(model, model.entries.at(-1).id, values).id, third.id);
+  for (const cell of model.cells.values()) values[cell.key] = cell.solution;
+  assert.equal(nextCrosswordEntry(model, first.id, values), null);
+  values[third.keys.at(-1)] = "X";
+  assert.equal(nextCrosswordEntry(model, first.id, values).id, third.id);
+});
 test("published crossword has consistent crossings and numbered clues", () => {
   const model = buildCrossword(puzzles[0]);
   assert.equal(model.entries.length, 6);
